@@ -1,5 +1,6 @@
 package com.betacom.pr.response;
 
-public class Resp {
 
+public class Resp {
+	
 }

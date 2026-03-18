@@ -1,5 +1,13 @@
 package com.betacom.pr.dto.inputs;
 
-public class CategoryReq {
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
+public class CategoryReq {
+    private Integer id;
+    private String name;
 }
