@@ -1,5 +1,10 @@
 package com.betacom.pr.response;
 
-public class Resp {
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
+public class Resp {
+    private String msg;
 }
