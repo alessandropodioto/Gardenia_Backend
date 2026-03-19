@@ -127,17 +127,16 @@ public class UserImpl implements IUserServices {
 
 	@Override
 	public LoginDTO login(LoginReq req) throws Exception {
-		//		User us = usR.findById(req.getUserName()) 
-		//		.orElseThrow(() -> new WebServiceExceptions(msgS.get("login_invalid"))); 
-		//
-		//if (!us.getPassword().equals(req.getPwd()))
-		//	throw new WebServiceExceptions(msgS.get("login_invalid"));
-		//
-		//return LoginDTO.builder()
-		//		.id(ut.getUserName())
-		//		.role(ut.getRole().toString())
-		//		.build();	
-		return null;
+				User us = usR.findById(req.getUserName()) 
+				.orElseThrow(() -> new WebServiceExceptions(msgS.get("login_invalid"))); 
+		
+		if (!us.getPassword().equals(req.getPassword()))
+			throw new WebServiceExceptions(msgS.get("login_invalid"));
+		
+		return LoginDTO.builder()
+				.id(us.getUserName())
+				.role(us.getRole().toString())
+				.build();	
 	}
 
 }
