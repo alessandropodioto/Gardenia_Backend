@@ -7,6 +7,6 @@ public interface IStatusServices {
 
     List<StatusDTO> getAll();
     
-    StatusDTO getById(Integer id);
+    StatusDTO getById(Integer id) throws Exception;
 
 }

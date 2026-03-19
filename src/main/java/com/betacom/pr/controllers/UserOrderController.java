@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.betacom.pr.dto.inputs.UserOrderReq;
+import com.betacom.pr.models.User;
 import com.betacom.pr.response.Resp;
 import com.betacom.pr.services.interfaces.IUserOrderServices;
 
@@ -73,7 +74,7 @@ public class UserOrderController {
     }
 
     @GetMapping("/listByUser")
-    public ResponseEntity<Object> listByUser(@RequestParam(required = true) String userId) {
+    public ResponseEntity<Object> listByUser(@RequestParam(required = true) User userId) {
         Object r;
         HttpStatus status = HttpStatus.OK;
         try {

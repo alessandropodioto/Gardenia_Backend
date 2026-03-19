@@ -137,7 +137,7 @@ public class UserImpl implements IUserServices {
 		//		.id(ut.getUserName())
 		//		.role(ut.getRole().toString())
 		//		.build();	
-
+		return null;
 	}
 
 }

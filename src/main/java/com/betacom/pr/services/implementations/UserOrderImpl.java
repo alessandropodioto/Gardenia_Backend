@@ -67,38 +67,50 @@ public class UserOrderImpl implements IUserOrderServices {
     }
 
     @Override
-    public UserOrderDTO getById(Integer id) {
+    public UserOrderDTO getById(Integer id) throws Exception {
         log.debug("get order by id: {}", id);
-        return orderR.findById(id)
-                .map(order -> this.convertToDTO(order))
-                .orElse(null);
+
+        UserOrder order = orderR.findById(id)
+            .orElseThrow(() -> new Exception("Ordine non trovato"));
+
+        return UserOrderDTO.builder()
+                        .id(order.getId())
+                        .wharehouse(order.getWharehouse())
+                        .isPaid(order.getIsPaid())
+                        .userName(order.getUser().getUserName())
+                        .addressId(order.getAddress().getId())
+                        .statusDescription(order.getStatus().getDescription())
+                        .build();
     }
 
     @Override
-    public List<UserOrderDTO> getByUserId(String userId) {
+    public List<UserOrderDTO> getByUserId(User userId) {
         log.debug("list orders for user: {}", userId);
-        return orderR.findByUserUserName(userId).stream()
-                .map(order -> this.convertToDTO(order))
-                .toList();
+        return orderR.findAllByUser_UserName(userId.getUserName()).stream()
+                .map(order -> UserOrderDTO.builder()
+                        .id(order.getId())
+                        .wharehouse(order.getWharehouse())
+                        .isPaid(order.getIsPaid())
+                        .userName(order.getUser().getUserName())
+                        .addressId(order.getAddress().getId())
+                        .statusDescription(order.getStatus().getDescription())
+                        .build()
+                ).toList();
     }
 
     @Override
     public List<UserOrderDTO> getAll() {
         log.debug("list all orders");
         return orderR.findAll().stream()
-                .map(order -> this.convertToDTO(order))
-                .toList();
-    }
-
-    private UserOrderDTO convertToDTO(UserOrder order) {
-        UserOrderDTO dto = new UserOrderDTO();
-        dto.setId(order.getId());
-        dto.setWharehouse(order.getWharehouse());
-        dto.setIsPaid(order.getIsPaid());
-        dto.setUserName(order.getUser().getUserName());
-        dto.setAddressId(order.getAddress().getId());
-        dto.setStatusDescription(order.getStatus().getDescription());
-        return dto;
+                .map(order -> UserOrderDTO.builder()
+                        .id(order.getId())
+                        .wharehouse(order.getWharehouse())
+                        .isPaid(order.getIsPaid())
+                        .userName(order.getUser().getUserName())
+                        .addressId(order.getAddress().getId())
+                        .statusDescription(order.getStatus().getDescription())
+                        .build()
+                ).toList();
     }
     
 }

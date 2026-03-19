@@ -17,26 +17,26 @@ public class StatusImpl implements IStatusServices {
     private final IStatusRepository statusR;
 
     @Override
-    public StatusDTO getById(Integer id) {
+    public StatusDTO getById(Integer id) throws Exception {
         log.debug("get status by id: {}", id);
-        return statusR.findById(id)
-                .map(s -> this.convertToDTO(s))
-                .orElse(null);
+
+        Status s = statusR.findById(id)
+        .orElseThrow(() -> new Exception("Status not found"));
+        return StatusDTO.builder()
+                        .id(s.getId())
+                        .description(s.getDescription())
+                        .build();
     }
       
     @Override
     public List<StatusDTO> getAll() {
         log.debug("list all statuses");
         return statusR.findAll().stream()
-                .map(s -> this.convertToDTO(s))
-                .toList();
-    }
-
-    private StatusDTO convertToDTO(Status s) {
-        StatusDTO dto = new StatusDTO();
-        dto.setId(s.getId());
-        dto.setDescription(s.getDescription());
-        return dto;
+                .map(s -> StatusDTO.builder()
+                        .id(s.getId())
+                        .description(s.getDescription())
+                        .build()
+                ).toList();
     }
 
 }
