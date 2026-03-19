@@ -6,7 +6,5 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Resp {
-	
-	private String msg;
-
+    private String msg;
 }
