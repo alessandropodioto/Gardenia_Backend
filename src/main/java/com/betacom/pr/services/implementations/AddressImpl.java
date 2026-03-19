@@ -26,10 +26,10 @@ public class AddressImpl implements IAddressServices {
         log.debug("create {}", req);
 
         Address address = new Address();
-        address.setCountry(req.getCountry());
-        address.setCity(req.getCity());
+        address.setCountry(req.getCountry().toUpperCase());
+        address.setCity(req.getCity().toUpperCase());
         address.setPostalCode(req.getPostalCode());
-        address.setStreet(req.getStreet());
+        address.setStreet(req.getStreet().toUpperCase());
         address.setNumber(req.getNumber());
 
         addressRepository.save(address);
@@ -43,13 +43,13 @@ public class AddressImpl implements IAddressServices {
                 .orElseThrow(() -> new Exception("Address not found"));
 
         if(req.getCountry() != null)
-            address.setCountry(req.getCountry());
+            address.setCountry(req.getCountry().toUpperCase());
         if(req.getCity() != null)
-            address.setCity(req.getCity());
+            address.setCity(req.getCity().toUpperCase());
         if(req.getPostalCode() != null)
             address.setPostalCode(req.getPostalCode());
         if(req.getStreet() != null)
-            address.setStreet(req.getStreet());
+            address.setStreet(req.getStreet().toUpperCase());
         if(req.getNumber() != null)
             address.setNumber(req.getNumber());
 
