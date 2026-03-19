@@ -1,5 +1,14 @@
 package com.betacom.pr.dto.inputs;
 
-public class SubcategoryReq {
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@Builder
+public class SubcategoryReq {
+	private Integer subcategoryId;
+	 private String subcategoryName;
+	 private Integer CategoryId;
 }
