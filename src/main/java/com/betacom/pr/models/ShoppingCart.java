@@ -1,13 +1,13 @@
 package com.betacom.pr.models;
 
-import com.betacom.pr.enums.Roles;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,19 +15,20 @@ import lombok.Setter;
 	@Getter
 	@Setter
 	@Entity
-	@Table (name="sopping_cart")
+	@Table (name="shopping_cart")
 	public class ShoppingCart {
 		
 		@Id
-		private Integer idShoppingCart;
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Integer id;
 		
-		@OneToOne
-		@JoinColumn(name="id_User_Order")
-		private UserOrder idUserOrder;
+		@ManyToOne
+		@JoinColumn(name="id_user_order")
+		private UserOrder userOrder;
 		
-		@OneToMany
-		@JoinColumn(name="id_Product")
-		private Product idProduct;
+		@ManyToOne
+		@JoinColumn(name="id_product")
+		private Product product;
 		
 		@Column (nullable = false)
 		private Integer price;

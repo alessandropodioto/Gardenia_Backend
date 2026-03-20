@@ -21,25 +21,29 @@ import lombok.Setter;
 @Table(name="product")
 
 public class Product {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	@Column(nullable=false,length=100)
 	private String name;
+	
 	@Column(length = 300)
 	private String description;
+	
 	@Column(nullable = false)
     private Double price;
+	
 	@Column(nullable = false)
 	private Integer stock;
+	
 	@ManyToOne
     @JoinColumn(name="subcategory_id")
     private Subcategory subcategory;
+	
 	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER) 
     private List<Image> images;
-	@ManyToOne
-    @JoinColumn(name="category_id")
-    private Category category;
 	
 	
 }
