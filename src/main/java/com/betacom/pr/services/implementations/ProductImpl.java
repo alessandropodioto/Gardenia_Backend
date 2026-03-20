@@ -38,12 +38,6 @@ public class ProductImpl implements IProductServices {
 		p.setStock(req.getStock());
 		
 		
-		if (req.getCategoryId() != null) {
-			Category cat = categoryR.findById(req.getCategoryId())
-					.orElseThrow(() -> new Exception("Categoria non trovata"));
-			p.setCategory(cat); 
-		}
-		
 		if (req.getSubcategoryId() != null) {
 			Subcategory subCat = subcategoryR.findById(req.getSubcategoryId())
 					.orElseThrow(() -> new Exception("Sottocategoria non trovata"));
@@ -67,11 +61,6 @@ public class ProductImpl implements IProductServices {
 		if (req.getPrice() != null) p.setPrice(req.getPrice());
 		if (req.getStock() != null) p.setStock(req.getStock());
 		
-		if (req.getCategoryId() != null) {
-			Category cat = categoryR.findById(req.getCategoryId())
-					.orElseThrow(() -> new Exception("Categoria non trovata"));
-			p.setCategory(cat);
-		}
 		
 		if (req.getSubcategoryId() != null) {
 			Subcategory subCat = subcategoryR.findById(req.getSubcategoryId())
