@@ -100,8 +100,7 @@ public class UserImpl implements IUserServices {
 						.phone(u.getPhone())
 						.password(u.getPassword())
 						.role(u.getRole().toString())
-						.idAddress(u.getIdAddress())
-
+						.idAddresses(u.getAddresses().stream().map(a -> a.getId()).toList())
 						.build())
 						).toList();
 	}
@@ -120,7 +119,7 @@ public class UserImpl implements IUserServices {
 				.phone(u.getPhone())
 				.password(u.getPassword())
 				.role(u.getRole().toString())
-				.idAddress(u.getIdAddress())
+				.idAddresses(u.getAddresses().stream().map(a -> a.getId()).toList())
 
 				.build();
 	}

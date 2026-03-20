@@ -1,12 +1,16 @@
 package com.betacom.pr.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.betacom.pr.enums.Roles;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,8 +42,12 @@ public class User {
 	@Column (length = 100, nullable = false, unique = true)
 	private Roles role;
 	
-	@OneToMany
-	@JoinColumn(name="id_address")
-	private Address idAddress;
+	@ManyToMany
+    @JoinTable(
+        name = "user_address",
+        joinColumns = @JoinColumn(name = "user_name"),
+        inverseJoinColumns = @JoinColumn(name = "address_id")
+    )
+    private List<Address> addresses = new ArrayList<>();
 	
 }

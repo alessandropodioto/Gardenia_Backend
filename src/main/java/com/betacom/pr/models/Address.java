@@ -1,10 +1,14 @@
 package com.betacom.pr.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -33,4 +37,7 @@ public class Address {
 
     @Column(nullable = false, unique = true)
     private Integer number;
+
+    @ManyToMany(mappedBy = "addresses")
+    private List<User> users = new ArrayList<>();
 }
