@@ -43,7 +43,7 @@ public class Address {
     @ManyToMany(mappedBy = "addresses")
     private List<User> users = new ArrayList<>();
     
-	@ManyToOne
-	@JoinColumn (name="address_id")
-	private User user;
+//	@ManyToOne
+//	@JoinColumn (name="address_id")
+//	private List <User> userLiving;
 }
