@@ -10,7 +10,8 @@ import java.util.List;
 @Setter
 @ToString
 public class UserOrderReq {
-
+	
+	private Integer id;
     private String wharehouse;
     private Boolean isPaid;   
     private String userId;
