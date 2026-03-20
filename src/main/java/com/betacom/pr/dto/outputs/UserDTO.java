@@ -1,6 +1,6 @@
 package com.betacom.pr.dto.outputs;
 
-import com.betacom.pr.models.Address;
+import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -20,6 +20,6 @@ public class UserDTO {
 	private String phone;
 	private String password;
 	private String role;
-	private Address idAddress;
+	private List<Integer> idAddresses;
 
 }
