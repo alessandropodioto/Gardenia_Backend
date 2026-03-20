@@ -8,6 +8,7 @@ import com.betacom.pr.models.User;
 public interface IUserOrderServices {
 
     void create(UserOrderReq req) throws Exception;
+    void update(UserOrderReq req) throws Exception;
     void updateStatus(Integer orderId, Integer statusId);
     UserOrderDTO getById(Integer id) throws Exception;
     List<UserOrderDTO> getByUserId(User userId);

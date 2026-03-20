@@ -43,7 +43,7 @@ public class UserImpl implements IUserServices {
 		us.setPhone(req.getPhone());
 		us.setPassword(req.getPassword());
 		us.setRole(Roles.valueOf(req.getRole()));
-		//us.setIdAddress(addR.findById(req.getIdAddress().get())); //DA SBLOCCARE QUANTO è PRONTO ADDRESS
+		us.setAddress(addR.findById(req.getIdAddress()).get()); 
 
 		usR.save(us);
 
@@ -55,7 +55,7 @@ public class UserImpl implements IUserServices {
 		log.debug("update {}", req);
 
 		User us = usR.findById(req.getUserName()) 
-				.orElseThrow(() -> new WebServiceExceptions(msgS.get("user_ntfnd"))); //user_ntfnd l'ho messo prima nella tabella messaggi_systema su DBeaver manualmente
+				.orElseThrow(() -> new WebServiceExceptions(msgS.get("user_ntfnd")));
 
 
 		if(req.getEmail() != null)
@@ -66,8 +66,8 @@ public class UserImpl implements IUserServices {
 			us.setPassword(req.getPassword());
 		if(req.getRole() != null)
 			us.setRole(Roles.valueOf(req.getRole()));
-		//		if(req.getIdAddress() != null)
-		//			us.setIdAddress(addR.findById(req.getIdAddress()).get());
+		if(req.getIdAddress() != null)
+			us.setAddress(addR.findById(req.getIdAddress()).get());
 
 		usR.save(us);
 

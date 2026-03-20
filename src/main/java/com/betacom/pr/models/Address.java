@@ -8,7 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,4 +42,8 @@ public class Address {
 
     @ManyToMany(mappedBy = "addresses")
     private List<User> users = new ArrayList<>();
+    
+	@ManyToOne
+	@JoinColumn (name="address_id")
+	private User user;
 }
