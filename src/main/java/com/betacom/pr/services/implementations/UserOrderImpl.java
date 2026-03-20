@@ -6,7 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.betacom.pr.dto.inputs.UserOrderReq;
 import com.betacom.pr.dto.outputs.UserOrderDTO;
+import com.betacom.pr.exceptions.WebServiceExceptions;
 import com.betacom.pr.models.Address;
+import com.betacom.pr.models.ShoppingCart;
 import com.betacom.pr.models.Status;
 import com.betacom.pr.models.User;
 import com.betacom.pr.models.UserOrder;
@@ -14,6 +16,7 @@ import com.betacom.pr.repositories.IAddressRepository;
 import com.betacom.pr.repositories.IStatusRepository;
 import com.betacom.pr.repositories.IUserOrderRepository;
 import com.betacom.pr.repositories.IUserRepository;
+import com.betacom.pr.services.interfaces.IMessaggioServices;
 import com.betacom.pr.services.interfaces.IUserOrderServices;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +31,7 @@ public class UserOrderImpl implements IUserOrderServices {
     private final IUserRepository userR;
     private final IAddressRepository addR;
     private final IStatusRepository stR;
+    private final IMessaggioServices msgS;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -112,5 +116,30 @@ public class UserOrderImpl implements IUserOrderServices {
                         .build()
                 ).toList();
     }
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void update(UserOrderReq req) throws Exception {
+		log.debug("update {}", req);
+
+		UserOrder us = orderR.findById(req.getId())
+				.orElseThrow(() -> new WebServiceExceptions(msgS.get("order_ntfnd"))); //user_ntfnd l'ho messo prima nella tabella messaggi_systema su DBeaver manualmente
+
+
+		if(req.getWharehouse() != null)
+			us.setWharehouse(req.getWharehouse());
+		if(req.getIsPaid() != null)
+			us.setIsPaid(req.getIsPaid());
+		if(req.getUserId() !=null)
+			us.setUser(userR.findById(req.getUserId()).get());
+		if(req.getAddressId() != null)
+			us.setAddress(addR.findById(req.getAddressId()).get());
+		if(req.getStatusId() != null)
+			us.setStatus(stR.findById(req.getStatusId()).get());
+		
+
+		orderR.save(us);
+		
+	}
     
 }

@@ -73,8 +73,6 @@ public class ShoppingCartImpl implements IShoppingCartServices{
 				us.setIdUserOrder(uoR.findById(req.getIdOrder()).get());
 			if(req.getIdProduct() != null)
 				us.setIdProduct(pR.findById(req.getIdProduct()).get());
-			//		if(req.getIdAddress() != null)
-			//			us.setIdAddress(addR.findById(req.getIdAddress()).get());
 
 			ssR.save(us);
 
