@@ -2,6 +2,7 @@ package com.betacom.pr.services.interfaces;
 
 import java.util.List;
 
+import com.betacom.pr.dto.inputs.AddressReq;
 import com.betacom.pr.dto.inputs.LoginReq;
 import com.betacom.pr.dto.inputs.UserReq;
 import com.betacom.pr.dto.outputs.LoginDTO;
@@ -17,5 +18,7 @@ public interface IUserServices {
 	LoginDTO login(LoginReq req) throws Exception;
 	List<UserDTO> list();
 	UserDTO getByUserName(String userName) throws Exception;
+
+	void addAddress(String userName, Integer addId) throws Exception;
 
 }

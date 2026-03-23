@@ -95,6 +95,20 @@ public class UserController {
 		}
 		return ResponseEntity.status(status).body(r);
 	}
+
+	@PostMapping("/{username}/addresses")
+	public ResponseEntity<Resp> addAddress(@PathVariable(required = true)  String username, @RequestParam(required = true) Integer addressId){
+		Resp r = new Resp();
+		HttpStatus status = HttpStatus.OK;
+		try {
+			usS.addAddress(username, addressId);
+			r.setMsg(msgS.get("rest_added"));
+		} catch (Exception e) {
+			r.setMsg(e.getMessage());
+			status = HttpStatus.BAD_REQUEST;
+		}
+		return ResponseEntity.status(status).body(r);
+	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<Object> login (@RequestBody(required = true)  LoginReq req){

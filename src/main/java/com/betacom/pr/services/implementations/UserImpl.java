@@ -2,6 +2,10 @@ package com.betacom.pr.services.implementations;
 
 import java.util.List;
 
+import com.betacom.pr.dto.inputs.AddressReq;
+import com.betacom.pr.models.Address;
+import com.betacom.pr.repositories.IAddressRepository;
+import com.betacom.pr.services.interfaces.IAddressServices;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +30,8 @@ public class UserImpl implements IUserServices {
 
 	private final IUserRepository usR;
 	private final IMessaggioServices msgS;
+	// private final IAddressServices addS;
+	private final IAddressRepository addR;
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
@@ -114,6 +120,23 @@ public class UserImpl implements IUserServices {
 				.password(u.getPassword())
 				.role(u.getRole().toString())
 				.build();
+	}
+
+	@Override
+	public void addAddress(String userName, Integer addId) throws Exception {
+		log.debug("addAddress {}", addId);
+
+		Address address = addR.findById(addId)
+				.orElseThrow(() -> new Exception(msgS.get("address_ntfnd")));
+
+		User user = usR.findById(userName)
+				.orElseThrow(() -> new Exception(msgS.get("user_ntfnd")));
+
+		if (user.getAddresses().contains(address))
+			throw new Exception(msgS.get("address_already_linked"));
+
+		user.getAddresses().add(address);
+		usR.save(user);
 	}
 
 	@Override
