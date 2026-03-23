@@ -70,9 +70,9 @@ public class UserOrderImpl implements IUserOrderServices {
     }
 
     @Override
-    public List<UserOrderDTO> getByUserId(User userId) {
-        log.debug("list orders for user: {}", userId);
-        return orderR.findAllByUser_UserName(userId.getUserName()).stream()
+    public List<UserOrderDTO> getByUserId(String userName) {
+        log.debug("list orders for user: {}", userName);
+        return orderR.findAllByUser_UserName(userName).stream()
                 .map(order -> UserOrderDTO.builder()
                         .id(order.getId())
                         .wharehouse(order.getWharehouse())

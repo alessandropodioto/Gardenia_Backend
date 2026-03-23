@@ -26,23 +26,21 @@ public class Mapper {
 
 	public static List<CategoryDTO> buildCategoryDTO(List<Category> lc) {
 		return lc.stream()
-				.map(c -> buildCategoryDTO(c))
+				.map(Mapper::buildCategoryDTO)
 				.collect(Collectors.toList());
 	}
 
 	public static SubcategoryDTO buildSubcategoryDTO(Subcategory s) {
 		if (s == null) return null;
 		return SubcategoryDTO.builder()
-				.subcategoryId(s.getId())
 				.subcategoryName(s.getName())
-
-				.subcategoryId((s.getCategory() == null) ? null : s.getCategory().getId())
+				.categoryId((s.getCategory() == null) ? null : s.getCategory().getId())
 				.build();
 	}
 
 	public static List<SubcategoryDTO> buildSubcategoryDTO(List<Subcategory> ls) {
 		return ls.stream()
-				.map(s -> buildSubcategoryDTO(s))
+				.map(Mapper::buildSubcategoryDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -57,7 +55,7 @@ public class Mapper {
 
 	public static List<ImageDTO> buildImageDTO(List<Image> li) {
 		return li.stream()
-				.map(i -> buildImageDTO(i))
+				.map(Mapper::buildImageDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -76,7 +74,7 @@ public class Mapper {
 
 	public static List<ProductDTO> buildProductDTO(List<Product> lp) {
 		return lp.stream()
-				.map(p -> buildProductDTO(p))
+				.map(Mapper::buildProductDTO)
 				.collect(Collectors.toList());
 	}
 }
