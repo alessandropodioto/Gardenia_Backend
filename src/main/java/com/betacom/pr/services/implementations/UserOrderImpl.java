@@ -1,6 +1,7 @@
 package com.betacom.pr.services.implementations;
 
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,7 +9,6 @@ import com.betacom.pr.dto.inputs.UserOrderReq;
 import com.betacom.pr.dto.outputs.UserOrderDTO;
 import com.betacom.pr.exceptions.WebServiceExceptions;
 import com.betacom.pr.models.Address;
-import com.betacom.pr.models.ShoppingCart;
 import com.betacom.pr.models.Status;
 import com.betacom.pr.models.User;
 import com.betacom.pr.models.UserOrder;

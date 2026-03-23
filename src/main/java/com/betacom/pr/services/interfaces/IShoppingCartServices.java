@@ -1,10 +1,10 @@
 package com.betacom.pr.services.interfaces;
 
+import java.util.List;
+
 import com.betacom.pr.dto.inputs.ShoppingCartReq;
 import com.betacom.pr.dto.outputs.ShoppingCartDTO;
-import com.betacom.pr.dto.outputs.UserDTO;
 import com.betacom.pr.dto.outputs.UserOrderDTO;
-import java.util.List;
 
 
 public interface IShoppingCartServices {

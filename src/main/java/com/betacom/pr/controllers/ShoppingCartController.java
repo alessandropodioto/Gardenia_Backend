@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betacom.pr.dto.inputs.ShoppingCartReq;
-import com.betacom.pr.dto.inputs.UserReq;
 import com.betacom.pr.response.Resp;
 import com.betacom.pr.services.interfaces.IMessaggioServices;
 import com.betacom.pr.services.interfaces.IShoppingCartServices;
-import com.betacom.pr.services.interfaces.IUserServices;
 
 import lombok.RequiredArgsConstructor;
 

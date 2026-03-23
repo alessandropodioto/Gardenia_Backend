@@ -1,7 +1,5 @@
 package com.betacom.pr.dto.outputs;
 
-import com.betacom.pr.models.Address;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

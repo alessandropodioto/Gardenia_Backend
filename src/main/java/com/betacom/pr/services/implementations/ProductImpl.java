@@ -4,16 +4,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.betacom.pr.Utilities.Mapper;
 import com.betacom.pr.dto.inputs.ProductReq;
 import com.betacom.pr.dto.outputs.ProductDTO;
-import com.betacom.pr.models.Category;
 import com.betacom.pr.models.Product;
 import com.betacom.pr.models.Subcategory;
-import com.betacom.pr.repositories.ICategoryRepository;
 import com.betacom.pr.repositories.IProductRepository;
 import com.betacom.pr.repositories.ISubcategoryRepository;
 import com.betacom.pr.services.interfaces.IProductServices;
-import com.betacom.pr.Utilities.Mapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductImpl implements IProductServices {
 
 	private final IProductRepository productR;
-	private final ICategoryRepository categoryR;
 	private final ISubcategoryRepository subcategoryR;
 
 	@Override

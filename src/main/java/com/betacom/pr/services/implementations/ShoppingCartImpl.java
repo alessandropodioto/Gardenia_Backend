@@ -6,23 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.betacom.pr.dto.inputs.ShoppingCartReq;
-import com.betacom.pr.dto.inputs.UserOrderReq;
-import com.betacom.pr.dto.inputs.UserReq;
 import com.betacom.pr.dto.outputs.ShoppingCartDTO;
 import com.betacom.pr.dto.outputs.UserOrderDTO;
-import com.betacom.pr.enums.Roles;
 import com.betacom.pr.exceptions.WebServiceExceptions;
-import com.betacom.pr.models.Address;
-import com.betacom.pr.models.Product;
 import com.betacom.pr.models.ShoppingCart;
-import com.betacom.pr.models.Status;
-import com.betacom.pr.models.User;
-import com.betacom.pr.models.UserOrder;
-import com.betacom.pr.repositories.IAddressRepository;
 import com.betacom.pr.repositories.IProductRepository;
 import com.betacom.pr.repositories.IShoppingCartRepository;
 import com.betacom.pr.repositories.IUserOrderRepository;
-import com.betacom.pr.repositories.IUserRepository;
 import com.betacom.pr.services.interfaces.IMessaggioServices;
 import com.betacom.pr.services.interfaces.IShoppingCartServices;
 
