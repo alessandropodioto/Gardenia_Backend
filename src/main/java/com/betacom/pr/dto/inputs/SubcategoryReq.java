@@ -1,14 +1,14 @@
 package com.betacom.pr.dto.inputs;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@Builder
+@ToString
 public class SubcategoryReq {
 	private Integer subcategoryId;
 	 private String subcategoryName;
-	 private Integer CategoryId;
+	 private Integer categoryId;
 }

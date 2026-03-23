@@ -50,11 +50,11 @@ public class UserOrderController {
 
     @PutMapping("/updateStatus")
     public ResponseEntity<Resp> updateStatus(@RequestParam(required = true) Integer orderId, 
-                                           @RequestParam(required = true) Integer statusId) {
+                                           @RequestParam(required = true) String statusString) {
         Resp r = new Resp();
         HttpStatus status = HttpStatus.OK;
         try {
-            orderS.updateStatus(orderId, statusId);
+            orderS.updateStatus(orderId, statusString);
             r.setMsg("Stato ordine aggiornato");
         } catch (Exception e) {
             r.setMsg(e.getMessage());

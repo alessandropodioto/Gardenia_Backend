@@ -13,8 +13,5 @@ public class ProductReq {
     private String description;
     private Double price;
     private Integer stock;
-    
-    private Integer categoryId;
     private Integer subcategoryId;
-    private Integer imageId;
 }

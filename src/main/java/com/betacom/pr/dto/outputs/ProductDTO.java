@@ -13,8 +13,6 @@ public class ProductDTO {
 	private Double price;
 	private Integer stock;
 	
-	private Integer categoryId;
-    private String categoryName;
     private Integer subcategoryId;
     private String subcategoryName;
     

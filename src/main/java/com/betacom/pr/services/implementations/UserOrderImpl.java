@@ -7,13 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.betacom.pr.dto.inputs.UserOrderReq;
 import com.betacom.pr.dto.outputs.UserOrderDTO;
+import com.betacom.pr.enums.Status;
 import com.betacom.pr.exceptions.WebServiceExceptions;
 import com.betacom.pr.models.Address;
-import com.betacom.pr.models.Status;
 import com.betacom.pr.models.User;
 import com.betacom.pr.models.UserOrder;
 import com.betacom.pr.repositories.IAddressRepository;
-import com.betacom.pr.repositories.IStatusRepository;
 import com.betacom.pr.repositories.IUserOrderRepository;
 import com.betacom.pr.repositories.IUserRepository;
 import com.betacom.pr.services.interfaces.IMessaggioServices;
@@ -30,7 +29,6 @@ public class UserOrderImpl implements IUserOrderServices {
     private final IUserOrderRepository orderR;
     private final IUserRepository userR;
     private final IAddressRepository addR;
-    private final IStatusRepository stR;
     private final IMessaggioServices msgS;
 
     @Override
@@ -44,8 +42,7 @@ public class UserOrderImpl implements IUserOrderServices {
         Address address = addR.findById(req.getAddressId())
                 .orElseThrow(() -> new Exception("Address not found: " + req.getAddressId()));
         
-        Status status = stR.findById(req.getStatusId())
-                .orElseThrow(() -> new Exception("Status not found: " + req.getStatusId()));
+        Status status = Status.valueOf(req.getStatus());
 
         UserOrder order = new UserOrder();
         order.setWharehouse(req.getWharehouse());
@@ -59,15 +56,16 @@ public class UserOrderImpl implements IUserOrderServices {
 
     @Override
     @Transactional
-    public void updateStatus(Integer orderId, Integer statusId) {
-        log.debug("update status of order {} to {}", orderId, statusId);
-        
-        orderR.findById(orderId).ifPresent(order -> 
-            stR.findById(statusId).ifPresent(newStatus -> {
-                order.setStatus(newStatus);
-                orderR.save(order);
-            })
-        );
+    public void updateStatus(Integer orderId, String status) throws Exception {
+        log.debug("update status of order {} to {}", orderId, status);
+
+        Status newStatus = Status.valueOf(status);
+
+        UserOrder order = orderR.findById(orderId)
+            .orElseThrow(() -> new Exception("Ordine non trovato"));
+
+        order.setStatus(newStatus);
+        orderR.save(order);
     }
 
     @Override
@@ -83,7 +81,7 @@ public class UserOrderImpl implements IUserOrderServices {
                         .isPaid(order.getIsPaid())
                         .userName(order.getUser().getUserName())
                         .addressId(order.getAddress().getId())
-                        .statusDescription(order.getStatus().getDescription())
+                        .statusDescription(order.getStatus().toString())
                         .build();
     }
 
@@ -97,7 +95,7 @@ public class UserOrderImpl implements IUserOrderServices {
                         .isPaid(order.getIsPaid())
                         .userName(order.getUser().getUserName())
                         .addressId(order.getAddress().getId())
-                        .statusDescription(order.getStatus().getDescription())
+                        .statusDescription(order.getStatus().toString())
                         .build()
                 ).toList();
     }
@@ -112,7 +110,7 @@ public class UserOrderImpl implements IUserOrderServices {
                         .isPaid(order.getIsPaid())
                         .userName(order.getUser().getUserName())
                         .addressId(order.getAddress().getId())
-                        .statusDescription(order.getStatus().getDescription())
+                        .statusDescription(order.getStatus().toString())
                         .build()
                 ).toList();
     }
@@ -134,8 +132,8 @@ public class UserOrderImpl implements IUserOrderServices {
 			us.setUser(userR.findById(req.getUserId()).get());
 		if(req.getAddressId() != null)
 			us.setAddress(addR.findById(req.getAddressId()).get());
-		if(req.getStatusId() != null)
-			us.setStatus(stR.findById(req.getStatusId()).get());
+		if(req.getStatus() != null)
+			us.setStatus(Status.valueOf(req.getStatus()));
 		
 
 		orderR.save(us);

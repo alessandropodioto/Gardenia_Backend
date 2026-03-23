@@ -1,10 +1,10 @@
 package com.betacom.pr.dto.inputs;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -16,7 +16,7 @@ public class UserOrderReq {
     private Boolean isPaid;   
     private String userId;
     private Integer addressId;
-    private Integer statusId;
+    private String status;
 
     private List<ShoppingCartReq> products; 
 }

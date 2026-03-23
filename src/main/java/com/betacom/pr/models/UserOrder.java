@@ -2,6 +2,8 @@ package com.betacom.pr.models;
 
 import java.util.List;
 
+import com.betacom.pr.enums.Status;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,8 +32,7 @@ public class UserOrder {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @ManyToOne
-    @JoinColumn(name = "status_id")
+    @Enumerated(EnumType.STRING)
     private Status status;
     
     @OneToMany(mappedBy = "userOrder")

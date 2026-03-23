@@ -9,7 +9,7 @@ public interface IUserOrderServices {
 
     void create(UserOrderReq req) throws Exception;
     void update(UserOrderReq req) throws Exception;
-    void updateStatus(Integer orderId, Integer statusId);
+    void updateStatus(Integer orderId, String status) throws Exception;
     UserOrderDTO getById(Integer id) throws Exception;
     List<UserOrderDTO> getByUserId(User userId);
     List<UserOrderDTO> getAll();
