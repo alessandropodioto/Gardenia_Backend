@@ -22,7 +22,7 @@ public class AddressImpl implements IAddressServices {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void create(AddressReq req) throws Exception {
+    public Integer create(AddressReq req) throws Exception {
         log.debug("create {}", req);
 
         Address address = new Address();
@@ -33,6 +33,8 @@ public class AddressImpl implements IAddressServices {
         address.setNumber(req.getNumber());
 
         addressRepository.save(address);
+
+        return address.getId();
     }
 
     @Transactional(rollbackFor = Exception.class)

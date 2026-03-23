@@ -16,6 +16,5 @@ public class UserReq {
 	private String phone;
 	private String password;
 	private String role;
-	private Integer idAddress;
 
 }

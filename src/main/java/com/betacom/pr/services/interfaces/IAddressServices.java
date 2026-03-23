@@ -6,7 +6,7 @@ import com.betacom.pr.dto.outputs.AddressDTO;
 import java.util.List;
 
 public interface IAddressServices {
-    void create(AddressReq req) throws Exception;
+    Integer create(AddressReq req) throws Exception;
     void update(AddressReq req) throws Exception;
     void delete(Integer id) throws Exception;
 

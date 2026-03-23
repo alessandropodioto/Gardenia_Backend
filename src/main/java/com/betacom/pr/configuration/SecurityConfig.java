@@ -7,8 +7,8 @@ public class SecurityConfig {
     /*@Bean
 	    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 			http.authorizeHttpRequests((requests) -> requests
-					.requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
-					.requestMatchers("/", "/address", "/category", "/image", "/product", "/shoppingCart", "/status", "/subcategory", "/user", "/order").permitAll()
+					.requestMatchers("/admin", "/admin/**", "/product").hasRole("ADMIN")
+					.requestMatchers("/", "/address", "/category", "/image", "/shoppingCart", "/status", "/subcategory", "/user", "/order").permitAll()
 					.anyRequest().authenticated()
 			)
 			.formLogin((form) -> form

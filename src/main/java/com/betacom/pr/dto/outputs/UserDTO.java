@@ -1,7 +1,5 @@
 package com.betacom.pr.dto.outputs;
 
-import java.util.List;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +18,5 @@ public class UserDTO {
 	private String phone;
 	private String password;
 	private String role;
-	private List<Integer> idAddresses;
 
 }

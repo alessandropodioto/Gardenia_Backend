@@ -2,7 +2,13 @@ package com.betacom.pr.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.betacom.pr.dto.inputs.UserOrderReq;
 import com.betacom.pr.models.User;
@@ -47,21 +53,6 @@ public class UserOrderController {
 		}
 		return ResponseEntity.status(status).body(r);		
 	}
-
-    @PutMapping("/updateStatus")
-    public ResponseEntity<Resp> updateStatus(@RequestParam(required = true) Integer orderId, 
-                                           @RequestParam(required = true) String statusString) {
-        Resp r = new Resp();
-        HttpStatus status = HttpStatus.OK;
-        try {
-            orderS.updateStatus(orderId, statusString);
-            r.setMsg("Stato ordine aggiornato");
-        } catch (Exception e) {
-            r.setMsg(e.getMessage());
-            status = HttpStatus.BAD_REQUEST;
-        }
-        return ResponseEntity.status(status).body(r);
-    }
 
     @GetMapping("/list")
     public ResponseEntity<Object> list() {

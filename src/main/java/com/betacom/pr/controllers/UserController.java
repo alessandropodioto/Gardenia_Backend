@@ -28,7 +28,7 @@ public class UserController {
 	private final IUserServices usS;
 	private final IMessaggioServices msgS;
 	
-	@PostMapping("/create")
+	@PostMapping("/register")
 	public ResponseEntity<Resp> create(@RequestBody(required = true)  UserReq req){
 		Resp r = new Resp();
 		HttpStatus status = HttpStatus.OK;

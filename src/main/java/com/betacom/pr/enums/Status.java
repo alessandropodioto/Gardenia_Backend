@@ -1,9 +1,8 @@
 package com.betacom.pr.enums;
 
 public enum Status {
-	PENDNG_PAYMENT,
+	PENDING,
 	SHIPPED,
 	DELIVERED,
 	REFUNDED
-
 }

@@ -41,30 +41,14 @@ public class UserOrderImpl implements IUserOrderServices {
         
         Address address = addR.findById(req.getAddressId())
                 .orElseThrow(() -> new Exception("Address not found: " + req.getAddressId()));
-        
-        Status status = Status.valueOf(req.getStatus());
 
         UserOrder order = new UserOrder();
         order.setWharehouse(req.getWharehouse());
-        order.setIsPaid(req.getIsPaid());
+        order.setIsPaid(false);
         order.setUser(user);
         order.setAddress(address);
-        order.setStatus(status);
+        order.setStatus(Status.PENDING);
 
-        orderR.save(order);
-    }
-
-    @Override
-    @Transactional
-    public void updateStatus(Integer orderId, String status) throws Exception {
-        log.debug("update status of order {} to {}", orderId, status);
-
-        Status newStatus = Status.valueOf(status);
-
-        UserOrder order = orderR.findById(orderId)
-            .orElseThrow(() -> new Exception("Ordine non trovato"));
-
-        order.setStatus(newStatus);
         orderR.save(order);
     }
 
@@ -126,8 +110,11 @@ public class UserOrderImpl implements IUserOrderServices {
 
 		if(req.getWharehouse() != null)
 			us.setWharehouse(req.getWharehouse());
-		if(req.getIsPaid() != null)
+		if(req.getIsPaid() != null) {
+            if (req.getIsPaid())
+                us.setStatus(Status.PENDING);
 			us.setIsPaid(req.getIsPaid());
+        }
 		if(req.getUserId() !=null)
 			us.setUser(userR.findById(req.getUserId()).get());
 		if(req.getAddressId() != null)

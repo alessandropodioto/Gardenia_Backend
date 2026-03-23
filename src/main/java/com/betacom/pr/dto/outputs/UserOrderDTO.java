@@ -3,7 +3,6 @@ package com.betacom.pr.dto.outputs;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.List;
 
 @Getter
 @Setter
@@ -16,5 +15,4 @@ public class UserOrderDTO {
     private String userName;  
     private Integer addressId; 
     private String statusDescription;
-    private List<ShoppingCartDTO> products;
 }
