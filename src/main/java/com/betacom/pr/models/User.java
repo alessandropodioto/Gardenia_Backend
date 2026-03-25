@@ -36,7 +36,7 @@ public class User {
 	@Column (length = 100, nullable = false)
 	private String phone;
 	
-	@Column (length = 20, nullable = false)
+	@Column (length = 100, nullable = false)
 	private String password;
 	
 	@Column (length = 100, nullable = false)

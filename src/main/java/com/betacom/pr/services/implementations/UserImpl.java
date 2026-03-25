@@ -6,6 +6,7 @@ import com.betacom.pr.dto.inputs.AddressReq;
 import com.betacom.pr.models.Address;
 import com.betacom.pr.repositories.IAddressRepository;
 import com.betacom.pr.services.interfaces.IAddressServices;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,7 @@ public class UserImpl implements IUserServices {
 	private final IMessaggioServices msgS;
 	// private final IAddressServices addS;
 	private final IAddressRepository addR;
+	private final PasswordEncoder passwordEncoder;
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
@@ -47,7 +49,7 @@ public class UserImpl implements IUserServices {
 		us.setLastName(req.getLastName());
 		us.setEmail(req.getEmail());
 		us.setPhone(req.getPhone());
-		us.setPassword(req.getPassword());
+		us.setPassword(passwordEncoder.encode(req.getPassword()));
 		us.setRole(Roles.USER);
 
 		usR.save(us);
@@ -142,9 +144,9 @@ public class UserImpl implements IUserServices {
 	@Override
 	public LoginDTO login(LoginReq req) throws Exception {
 				User us = usR.findById(req.getUserName()) 
-				.orElseThrow(() -> new Exception(msgS.get("login_invalid")));
+				.orElseThrow(() -> new Exception(msgS.get("user_ntfnd")));
 		
-		if (!us.getPassword().equals(req.getPassword()))
+		if (!passwordEncoder.matches(req.getPassword(), us.getPassword()))
 			throw new Exception(msgS.get("login_invalid"));
 		
 		return LoginDTO.builder()
