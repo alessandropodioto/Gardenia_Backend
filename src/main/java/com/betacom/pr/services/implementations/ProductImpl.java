@@ -33,6 +33,7 @@ public class ProductImpl implements IProductServices {
 		p.setDescription(req.getDescription());
 		p.setPrice(req.getPrice());
 		p.setStock(req.getStock());
+		p.setIs_deleted(req.getIs_deleted());
 		
 		
 		if (req.getSubcategoryId() != null) {
@@ -57,6 +58,7 @@ public class ProductImpl implements IProductServices {
 		if (req.getDescription() != null) p.setDescription(req.getDescription());
 		if (req.getPrice() != null) p.setPrice(req.getPrice());
 		if (req.getStock() != null) p.setStock(req.getStock());
+		if (req.getIs_deleted() != null) p.setIs_deleted(req.getIs_deleted());
 		
 		
 		if (req.getSubcategoryId() != null) {

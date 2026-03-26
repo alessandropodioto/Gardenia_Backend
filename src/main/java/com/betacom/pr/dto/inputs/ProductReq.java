@@ -14,4 +14,5 @@ public class ProductReq {
     private Double price;
     private Integer stock;
     private Integer subcategoryId;
+    private Boolean is_deleted;
 }

@@ -34,6 +34,9 @@ public class Product {
 	@Column(nullable = false)
 	private Integer stock;
 	
+	@Column(nullable = false)
+	private Boolean is_deleted;
+	
 	@ManyToOne
     @JoinColumn(name="subcategory_id")
     private Subcategory subcategory;
