@@ -15,4 +15,5 @@ public class UserOrderReq {
     private String userId;
     private Integer addressId;
     private String status;
+    private String date;
 }

@@ -45,6 +45,7 @@ public class UserOrderImpl implements IUserOrderServices {
         UserOrder order = new UserOrder();
         order.setWharehouse(req.getWharehouse());
         order.setIsPaid(false);
+        order.setDate(req.getDate());
         order.setUser(user);
         order.setAddress(address);
         order.setStatus(Status.PENDING);
@@ -65,6 +66,7 @@ public class UserOrderImpl implements IUserOrderServices {
                         .isPaid(order.getIsPaid())
                         .userName(order.getUser().getUserName())
                         .addressId(order.getAddress().getId())
+                        .date(order.getDate())
                         .statusDescription(order.getStatus().toString())
                         .build();
     }
@@ -79,6 +81,7 @@ public class UserOrderImpl implements IUserOrderServices {
                         .isPaid(order.getIsPaid())
                         .userName(order.getUser().getUserName())
                         .addressId(order.getAddress().getId())
+                        .date(order.getDate())
                         .statusDescription(order.getStatus().toString())
                         .build()
                 ).toList();
@@ -94,6 +97,7 @@ public class UserOrderImpl implements IUserOrderServices {
                         .isPaid(order.getIsPaid())
                         .userName(order.getUser().getUserName())
                         .addressId(order.getAddress().getId())
+                        .date(order.getDate())
                         .statusDescription(order.getStatus().toString())
                         .build()
                 ).toList();
@@ -115,6 +119,8 @@ public class UserOrderImpl implements IUserOrderServices {
                 us.setStatus(Status.PENDING);
 			us.setIsPaid(req.getIsPaid());
         }
+		if(req.getDate()!=null)
+			us.setDate(req.getDate());
 		if(req.getUserId() !=null)
 			us.setUser(userR.findById(req.getUserId()).get());
 		if(req.getAddressId() != null)

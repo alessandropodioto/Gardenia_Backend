@@ -15,4 +15,5 @@ public class UserOrderDTO {
     private String userName;  
     private Integer addressId; 
     private String statusDescription;
+    private String date;
 }

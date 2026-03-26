@@ -30,6 +30,9 @@ public class UserOrder {
 
     @Column(name = "is_paid")
     private Boolean isPaid;
+    
+    @Column(name= "date")
+    private String date;
 
     @ManyToOne
     @JoinColumn(name = "user_id") 
