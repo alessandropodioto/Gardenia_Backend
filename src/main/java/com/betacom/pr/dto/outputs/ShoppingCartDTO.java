@@ -12,9 +12,10 @@ import lombok.ToString;
 
 public class ShoppingCartDTO {
 
+	private Integer id;
 	private Integer idOrder;
 	private Integer idProduct;
-	private Integer size;
+	private Double price;
 	private Integer amount;
 	
 }

@@ -15,6 +15,6 @@ public class ShoppingCartReq {
 	private Integer idOrder;
 	private Integer idProduct;
 	private Integer amount;
-	private Integer price;
+	private Double price;
 	
 }

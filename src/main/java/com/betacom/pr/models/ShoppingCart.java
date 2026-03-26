@@ -30,7 +30,7 @@ import lombok.Setter;
 		private Product product;
 		
 		@Column (nullable = false)
-		private Integer price;
+		private Double price;
 		
 		@Column (nullable = false)
 		private Integer amount;
