@@ -45,24 +45,24 @@ public class AddressControllerTest {
         Resp r = (Resp) resp.getBody();
         Assertions.assertThat(r.getMsg()).isEqualTo("Address create");
     }
-
-
+    
     @Test
     @Order(2)
     public void createAddress2() {
         log.debug("Create address 2");
         AddressReq req = new AddressReq();
-        req.setCountry("Italia");
-        req.setCity("Roma");
-        req.setPostalCode(10100);
-        req.setStreet("Via Milano");
-        req.setNumber(5);
+        req.setCountry("Francia");
+        req.setCity("Parigi");
+        req.setPostalCode(90032);
+        req.setStreet("Via Italia");
+        req.setNumber(11);
 
         ResponseEntity<Object> resp = addressC.create(req);
         assertEquals(HttpStatus.OK, resp.getStatusCode());
         Resp r = (Resp) resp.getBody();
         Assertions.assertThat(r.getMsg()).isEqualTo("Address create");
     }
+
 
     @SuppressWarnings("unchecked")
     @Test
