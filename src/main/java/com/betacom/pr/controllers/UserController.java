@@ -49,12 +49,12 @@ public class UserController {
 		return ResponseEntity.status(status).body(r);		
 	}
 	
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Resp> delete(@PathVariable(required = true)  String id){ 
+	@DeleteMapping("/delete/{userName}")
+	public ResponseEntity<Resp> delete(@PathVariable(required = true)  String userName){
 		Resp r = new Resp();
 		HttpStatus status = HttpStatus.OK;
 		try {
-			usS.delete(id);
+			usS.delete(userName);
 			r.setMsg(msgS.get("rest_deleted"));
 		} catch (Exception e) {
 			r.setMsg(e.getMessage());

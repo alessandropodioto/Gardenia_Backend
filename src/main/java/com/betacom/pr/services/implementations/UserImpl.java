@@ -101,7 +101,6 @@ public class UserImpl implements IUserServices {
 						.lastName(u.getLastName())
 						.email(u.getEmail())
 						.phone(u.getPhone())
-						.password(u.getPassword())
 						.role(u.getRole().toString())
 						.build())
 						).toList();
@@ -119,7 +118,6 @@ public class UserImpl implements IUserServices {
 				.lastName(u.getLastName())
 				.email(u.getEmail())
 				.phone(u.getPhone())
-				.password(u.getPassword())
 				.role(u.getRole().toString())
 				.build();
 	}
