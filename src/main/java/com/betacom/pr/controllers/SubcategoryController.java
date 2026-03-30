@@ -79,6 +79,19 @@ public class SubcategoryController {
 		}
 		return ResponseEntity.status(status).body(r);
 	}
+
+	@GetMapping("/listByCategory")
+	public ResponseEntity<Object> listByCategory(@RequestParam(required = true) Integer id){
+		Object r;
+		HttpStatus status = HttpStatus.OK;
+		try {
+			r = subcategoryS.listByCategory_Id(id);
+		} catch (Exception e) {
+			r = e.getMessage();
+			status = HttpStatus.BAD_REQUEST;
+		}
+		return ResponseEntity.status(status).body(r);
+	}
 	
 	@GetMapping("/findById")
 	public ResponseEntity<Object> findById(@RequestParam(required = true) Integer id){

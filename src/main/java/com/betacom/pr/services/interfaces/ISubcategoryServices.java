@@ -12,5 +12,6 @@ public interface ISubcategoryServices {
 	void delete(Integer id) throws Exception;
 	
 	List<SubcategoryDTO> list();
+	List<SubcategoryDTO> listByCategory_Id(Integer categoryId);
 	SubcategoryDTO getById(Integer id) throws Exception;
 }

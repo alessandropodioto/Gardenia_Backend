@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class SubcategoryDTO {
-	 private Integer subcategoryId;
+	 private Integer id;
 	 private String subcategoryName;
 	 private Integer categoryId;
 }

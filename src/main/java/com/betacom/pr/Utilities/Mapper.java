@@ -33,6 +33,7 @@ public class Mapper {
 	public static SubcategoryDTO buildSubcategoryDTO(Subcategory s) {
 		if (s == null) return null;
 		return SubcategoryDTO.builder()
+				.id(s.getId())
 				.subcategoryName(s.getName())
 				.categoryId((s.getCategory() == null) ? null : s.getCategory().getId())
 				.build();
