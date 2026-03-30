@@ -33,8 +33,7 @@ public class ProductImpl implements IProductServices {
 		p.setDescription(req.getDescription());
 		p.setPrice(req.getPrice());
 		p.setStock(req.getStock());
-		p.setIs_deleted(req.getIs_deleted());
-		
+		p.setIsDeleted(false);
 		
 		if (req.getSubcategoryId() != null) {
 			Subcategory subCat = subcategoryR.findById(req.getSubcategoryId())
@@ -48,17 +47,15 @@ public class ProductImpl implements IProductServices {
 	@Override
 	public void update(ProductReq req) throws Exception {
 		log.debug("update product: {}", req);
-		
-		
+
 		Product p = productR.findById(req.getId())
 				.orElseThrow(() -> new Exception("Prodotto non trovato"));
-		
 		
 		if (req.getName() != null) p.setName(req.getName());
 		if (req.getDescription() != null) p.setDescription(req.getDescription());
 		if (req.getPrice() != null) p.setPrice(req.getPrice());
 		if (req.getStock() != null) p.setStock(req.getStock());
-		if (req.getIs_deleted() != null) p.setIs_deleted(req.getIs_deleted());
+		if (req.getIsDeleted() != null) p.setIsDeleted(req.getIsDeleted());
 		
 		
 		if (req.getSubcategoryId() != null) {
@@ -94,5 +91,16 @@ public class ProductImpl implements IProductServices {
 				.orElseThrow(() -> new Exception("Prodotto non trovato"));
 		
 		return Mapper.buildProductDTO(p);
+	}
+
+	@Override
+	public List<ProductDTO> getBySubcategoryId(Integer subcategoryId) throws Exception {
+		log.debug("getBySubcategoryId: {}", subcategoryId);
+
+		Subcategory subcategory = subcategoryR.findById(subcategoryId)
+				.orElseThrow(() -> new Exception("Sottocategoria non trovata"));
+
+		List<Product> products = productR.findAllBySubcategory_Id(subcategory.getId());
+		return Mapper.buildProductDTO(products);
 	}
 }

@@ -93,4 +93,17 @@ public class ProductController {
 		}
 		return ResponseEntity.status(status).body(r);
 	}
+	
+	@GetMapping("/findBySubcategory")
+	public ResponseEntity<Object> findBySubcategory(@RequestParam(required = true) Integer subcategoryId) {
+		Object r;
+		HttpStatus status = HttpStatus.OK;
+		try {
+			r = productS.getBySubcategoryId(subcategoryId);
+		} catch (Exception e) {
+			r = e.getMessage();
+			status = HttpStatus.BAD_REQUEST;
+		}
+		return ResponseEntity.status(status).body(r);
+	}
 }

@@ -12,7 +12,7 @@ public class ProductDTO {
 	private String description;
 	private Double price;
 	private Integer stock;
-	private Boolean is_deleted;
+	private Boolean isDeleted;
 	
     private Integer subcategoryId;
     private String subcategoryName;

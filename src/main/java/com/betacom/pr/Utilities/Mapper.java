@@ -67,6 +67,7 @@ public class Mapper {
 				.description(p.getDescription())
 				.price(p.getPrice())
 				.stock(p.getStock())
+				.isDeleted(p.getIsDeleted())
 				.subcategoryId((p.getSubcategory() == null) ? null : p.getSubcategory().getId())
 				.subcategoryName((p.getSubcategory() == null) ? null : p.getSubcategory().getName())
 				.build();

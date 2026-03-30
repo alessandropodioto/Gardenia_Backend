@@ -92,4 +92,17 @@ public class ImageController {
 		}
 		return ResponseEntity.status(status).body(r);
 	}
+	
+	@GetMapping("/findByProduct")
+	public ResponseEntity<Object> findByProduct(@RequestParam(required = true) Integer productId) {
+		Object r;
+		HttpStatus status = HttpStatus.OK;
+		try {
+			r = imageS.getByProductId(productId);
+		} catch (Exception e) {
+			r = e.getMessage();
+			status = HttpStatus.BAD_REQUEST;
+		}
+		return ResponseEntity.status(status).body(r);
+	}
 }

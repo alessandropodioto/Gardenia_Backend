@@ -13,4 +13,5 @@ public interface IProductServices {
 	
 	List<ProductDTO> list();
 	ProductDTO getById(Integer id) throws Exception;
+	List<ProductDTO> getBySubcategoryId(Integer subcategoryId) throws Exception;
 }

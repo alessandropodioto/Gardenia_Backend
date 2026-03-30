@@ -88,4 +88,11 @@ public class ImageImpl implements IImageServices {
 		
 		return Mapper.buildImageDTO(img);
 	}
+
+	@Override
+	public List<ImageDTO> getByProductId(Integer productId) throws Exception {
+		log.debug("getByProductId: {}", productId);
+		List<Image> images = imageR.findAllByProduct_Id(productId);
+		return Mapper.buildImageDTO(images);
+	}
 }
