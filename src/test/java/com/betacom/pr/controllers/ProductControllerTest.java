@@ -40,7 +40,7 @@ public class ProductControllerTest {
         req.setPrice(5.99);
         req.setStock(100);
         req.setSubcategoryId(2);
-        req.setIs_deleted(false);
+        req.setIsDeleted(false);
 
         ResponseEntity<Resp> resp = productC.create(req);
         assertEquals(HttpStatus.OK, resp.getStatusCode());
@@ -58,7 +58,7 @@ public class ProductControllerTest {
         req.setPrice(12.50);
         req.setStock(50);
         req.setSubcategoryId(2);
-        req.setIs_deleted(false);
+        req.setIsDeleted(false);
 
         ResponseEntity<Resp> resp = productC.create(req);
         assertEquals(HttpStatus.OK, resp.getStatusCode());

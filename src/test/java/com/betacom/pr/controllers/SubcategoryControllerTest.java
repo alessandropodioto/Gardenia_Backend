@@ -100,7 +100,7 @@ public class SubcategoryControllerTest {
         l.forEach(s -> log.debug(s.toString()));
 
         SubcategoryReq req = new SubcategoryReq();
-        req.setSubcategoryId(1);
+        req.setCategoryId(1);
         req.setSubcategoryName("Piante da Interno Aggiornate");
         req.setCategoryId(2);
 
