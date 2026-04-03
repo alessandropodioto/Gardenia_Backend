@@ -61,17 +61,24 @@ public class Mapper {
 	}
 
 	public static ProductDTO buildProductDTO(Product p) {
-		if (p == null) return null;
-		return ProductDTO.builder()
-				.id(p.getId())
-				.name(p.getName())
-				.description(p.getDescription())
-				.price(p.getPrice())
-				.stock(p.getStock())
-				.isDeleted(p.getIsDeleted())
-				.subcategoryId((p.getSubcategory() == null) ? null : p.getSubcategory().getId())
-				.subcategoryName((p.getSubcategory() == null) ? null : p.getSubcategory().getName())
-				.build();
+	    if (p == null) return null;	    
+	    return ProductDTO.builder()
+	            .id(p.getId())
+	            .name(p.getName())
+	            .description(p.getDescription())
+	            .price(p.getPrice())
+	            .stock(p.getStock())
+	            .isDeleted(p.getIsDeleted())
+	            .subcategoryId((p.getSubcategory() == null) ? null : p.getSubcategory().getId())
+	            .subcategoryName((p.getSubcategory() == null) ? null : p.getSubcategory().getName())
+	            .images(p.getImages() == null ? null : p.getImages().stream()
+	                    .map(img -> ImageDTO.builder()
+	                            .imageId(img.getId())
+	                            .link(img.getLink())
+	                            .productId(p.getId())
+	                            .build())
+	                    .toList())
+	            .build();
 	}
 
 	public static List<ProductDTO> buildProductDTO(List<Product> lp) {

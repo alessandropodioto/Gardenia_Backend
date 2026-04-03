@@ -1,5 +1,7 @@
 package com.betacom.pr.dto.outputs;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,5 +18,7 @@ public class ProductDTO {
 	
     private Integer subcategoryId;
     private String subcategoryName;
+    
+    private List<ImageDTO> images;
     
 }
