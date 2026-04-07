@@ -13,6 +13,7 @@ public interface IShoppingCartServices {
 	void update(ShoppingCartReq req) throws Exception;
 	void delete(Integer Id) throws Exception;
 	
+	List<ShoppingCartDTO> getAll();
 	List<ShoppingCartDTO> getAllByUserOrder(UserOrderDTO userOrder) throws Exception;
 
 }
