@@ -74,7 +74,6 @@ public class ShoppingCartController {
 		return ResponseEntity.status(status).body(r);		
 	}
 	
-	// Nel file ShoppingCartController.java
 
 	@GetMapping("/getAll")
 	public ResponseEntity<List<ShoppingCartDTO>> getAll() {
