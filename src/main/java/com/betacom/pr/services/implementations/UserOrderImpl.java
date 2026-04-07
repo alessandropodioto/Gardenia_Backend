@@ -140,9 +140,7 @@ public class UserOrderImpl implements IUserOrderServices {
 		UserOrder us = orderR.findById(req.getId())
 				.orElseThrow(() -> new WebServiceExceptions(msgS.get("order_ntfnd")));
 		
-		if(req.getIsPaid() != false) {
             if (req.getIsPaid())
     			us.setStatus(Status.valueOf(req.getStatus()));
-        }
 	}
 }
