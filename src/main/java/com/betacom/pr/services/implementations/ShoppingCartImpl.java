@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.betacom.pr.dto.inputs.ShoppingCartReq;
 import com.betacom.pr.dto.outputs.ShoppingCartDTO;
-import com.betacom.pr.dto.outputs.UserOrderDTO;
 import com.betacom.pr.exceptions.WebServiceExceptions;
 import com.betacom.pr.models.ShoppingCart;
 import com.betacom.pr.repositories.IProductRepository;
@@ -78,10 +77,37 @@ public class ShoppingCartImpl implements IShoppingCartServices {
     }
 
     @Override
-    public List<ShoppingCartDTO> getAllByUserOrder(UserOrderDTO userOrder) throws Exception {
-		//TODO
-        return null;
-		
+    public List<ShoppingCartDTO> getAllByUserOrder(Integer userOrderId) throws Exception {
+        log.debug("get cart items for order: {}", userOrderId);
+        
+        List<ShoppingCart> cartItems = ssR.findAllByUserOrder_Id(userOrderId);
+        
+        return cartItems.stream()
+            .map(cart -> ShoppingCartDTO.builder()
+                    .id(cart.getId())
+                    .idOrder(cart.getUserOrder().getId())
+                    .idProduct(cart.getProduct().getId())
+                    .price(cart.getPrice())
+                    .amount(cart.getAmount())
+                    .build()
+            ).toList();
+    }
+
+    @Override
+    public List<ShoppingCartDTO> getActiveCartByUser(String userName) throws Exception {
+        log.debug("get active cart for user: {}", userName);
+        
+        List<ShoppingCart> cartItems = ssR.findActiveCartByUser(userName);
+        
+        return cartItems.stream()
+            .map(cart -> ShoppingCartDTO.builder()
+                    .id(cart.getId())
+                    .idOrder(cart.getUserOrder().getId())
+                    .idProduct(cart.getProduct().getId())
+                    .price(cart.getPrice())
+                    .amount(cart.getAmount())
+                    .build()
+            ).toList();
     }
 
 

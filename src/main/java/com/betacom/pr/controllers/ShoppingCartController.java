@@ -3,6 +3,7 @@ package com.betacom.pr.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -66,6 +67,32 @@ public class ShoppingCartController {
 			status = HttpStatus.BAD_REQUEST;
 		}
 		return ResponseEntity.status(status).body(r);		
+	}
+
+	@GetMapping("/getByOrder/{orderId}")
+	public ResponseEntity<Object> getByOrder(@PathVariable Integer orderId) {
+		Object r;
+		HttpStatus status = HttpStatus.OK;
+		try {
+			r = ssS.getAllByUserOrder(orderId);
+		} catch (Exception e) {
+			r = e.getMessage();
+			status = HttpStatus.BAD_REQUEST;
+		}
+		return ResponseEntity.status(status).body(r);
+	}
+
+	@GetMapping("/activeCart/{userName}")
+	public ResponseEntity<Object> getActiveCart(@PathVariable String userName) {
+		Object r;
+		HttpStatus status = HttpStatus.OK;
+		try {
+			r = ssS.getActiveCartByUser(userName);
+		} catch (Exception e) {
+			r = e.getMessage();
+			status = HttpStatus.BAD_REQUEST;
+		}
+		return ResponseEntity.status(status).body(r);
 	}
 
 }
