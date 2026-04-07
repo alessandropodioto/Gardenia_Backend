@@ -129,5 +129,15 @@ public class UserOrderImpl implements IUserOrderServices {
 		orderR.save(us);
 		
 	}
-    
+
+	@Override
+	public void updateStatus(UserOrderReq req) throws Exception {
+		log.debug("updateStatus {}", req);
+
+		UserOrder us = orderR.findById(req.getId())
+				.orElseThrow(() -> new WebServiceExceptions(msgS.get("order_ntfnd")));
+		
+            if (req.getIsPaid())
+    			us.setStatus(Status.valueOf(req.getStatus()));
+	}
 }
