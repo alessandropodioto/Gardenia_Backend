@@ -19,6 +19,8 @@ public class ProductDTO {
     private Integer subcategoryId;
     private String subcategoryName;
     
+    private Integer productStock;
+    
     private List<ImageDTO> images;
     
 }

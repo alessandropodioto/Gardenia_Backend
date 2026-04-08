@@ -119,27 +119,27 @@ public class ShoppingCartImpl implements IShoppingCartServices {
             ).toList();
     }
     
-    @Override
-    public List<ShoppingCartDTO> getAll() {
-        List<ShoppingCart> entities = ssR.findAll();
-
-        return entities.stream().map(cart -> {
-            ShoppingCartDTO dto = ShoppingCartDTO.builder()
-                    .id(cart.getId())
-                    .amount(cart.getAmount())
-                    .price(cart.getPrice())
-                    .idProduct(cart.getProduct().getId())
-                    .nome(cart.getProduct().getName())
-                    .build();
-
-            if (cart.getProduct().getImages() != null && !cart.getProduct().getImages().isEmpty()) {
-                String urlImmagine = cart.getProduct().getImages().get(0).getLink();
-                dto.setImmagine(urlImmagine);
-            } else {      
-                dto.setImmagine("assets/placeholder.png");
-            }
-
-            return dto;
-        }).toList();
-    }
+	@Override
+	public List<ShoppingCartDTO> getAll() {
+	    List<ShoppingCart> entities = ssR.findAll();
+	
+	    return entities.stream().map(cart -> {
+	        ShoppingCartDTO dto = ShoppingCartDTO.builder()
+	                .id(cart.getId())
+	                .amount(cart.getAmount())
+	                .price(cart.getPrice())
+	                .idProduct(cart.getProduct().getId())
+	                .nome(cart.getProduct().getName())
+	                .productStock(cart.getProduct().getStock()) 
+	                .build();
+	
+	        if (cart.getProduct().getImages() != null && !cart.getProduct().getImages().isEmpty()) {
+	            dto.setImmagine(cart.getProduct().getImages().get(0).getLink());
+	        } else {      
+	            dto.setImmagine("assets/placeholder.png");
+	        }
+	
+	        return dto;
+	    }).toList();
+	}
 }

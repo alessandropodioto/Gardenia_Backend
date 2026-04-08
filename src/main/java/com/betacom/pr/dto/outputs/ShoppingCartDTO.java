@@ -25,4 +25,5 @@ public class ShoppingCartDTO {
 	private String nome;
     private String immagine;
 	
+    private Integer productStock;
 }

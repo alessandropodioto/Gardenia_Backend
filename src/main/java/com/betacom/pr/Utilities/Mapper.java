@@ -6,11 +6,13 @@ import java.util.stream.Collectors;
 import com.betacom.pr.dto.outputs.CategoryDTO;
 import com.betacom.pr.dto.outputs.ImageDTO;
 import com.betacom.pr.dto.outputs.ProductDTO;
+import com.betacom.pr.dto.outputs.ShoppingCartDTO;
 import com.betacom.pr.dto.outputs.SubcategoryDTO;
 
 import com.betacom.pr.models.Category;
 import com.betacom.pr.models.Image;
 import com.betacom.pr.models.Product;
+import com.betacom.pr.models.ShoppingCart;
 import com.betacom.pr.models.Subcategory;
 
 public class Mapper {
@@ -85,5 +87,25 @@ public class Mapper {
 		return lp.stream()
 				.map(Mapper::buildProductDTO)
 				.collect(Collectors.toList());
+	}
+	
+	public static ShoppingCartDTO buildShoppingCartDTO(ShoppingCart s) {
+	    if (s == null) return null;
+	    
+	    return ShoppingCartDTO.builder()
+	            .id(s.getId())
+	            .amount(s.getAmount())
+	            .price(s.getPrice())
+	            .idProduct(s.getProduct().getId())
+	            .nome(s.getProduct().getName())
+	            .productStock(s.getProduct().getStock()) 
+	            .immagine(s.getProduct().getImages().isEmpty() ? null : s.getProduct().getImages().get(0).getLink())
+	            .build();
+	}
+
+	public static List<ShoppingCartDTO> buildShoppingCartDTO(List<ShoppingCart> ls) {
+	    return ls.stream()
+	            .map(Mapper::buildShoppingCartDTO)
+	            .collect(Collectors.toList());
 	}
 }
