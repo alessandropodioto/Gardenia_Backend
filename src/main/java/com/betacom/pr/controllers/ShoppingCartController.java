@@ -85,4 +85,30 @@ public class ShoppingCartController {
 	    }
 	}
 
+	@GetMapping("/getByOrder/{orderId}")
+	public ResponseEntity<Object> getByOrder(@PathVariable Integer orderId) {
+		Object r;
+		HttpStatus status = HttpStatus.OK;
+		try {
+			r = ssS.getAllByUserOrder(orderId);
+		} catch (Exception e) {
+			r = e.getMessage();
+			status = HttpStatus.BAD_REQUEST;
+		}
+		return ResponseEntity.status(status).body(r);
+	}
+
+	@GetMapping("/activeCart/{userName}")
+	public ResponseEntity<Object> getActiveCart(@PathVariable String userName) {
+		Object r;
+		HttpStatus status = HttpStatus.OK;
+		try {
+			r = ssS.getActiveCartByUser(userName);
+		} catch (Exception e) {
+			r = e.getMessage();
+			status = HttpStatus.BAD_REQUEST;
+		}
+		return ResponseEntity.status(status).body(r);
+	}
+
 }

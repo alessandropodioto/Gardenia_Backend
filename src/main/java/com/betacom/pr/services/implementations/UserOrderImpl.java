@@ -38,16 +38,13 @@ public class UserOrderImpl implements IUserOrderServices {
 
         User user = userR.findById(req.getUserId())
                 .orElseThrow(() -> new Exception("User not found: " + req.getUserId()));
-        
-        Address address = addR.findById(req.getAddressId())
-                .orElseThrow(() -> new Exception("Address not found: " + req.getAddressId()));
 
         UserOrder order = new UserOrder();
         order.setWharehouse(req.getWharehouse());
         order.setIsPaid(false);
         order.setDate(req.getDate());
         order.setUser(user);
-        order.setAddress(address);
+        order.setAddress(null);
         order.setStatus(Status.PENDING);
 
         orderR.save(order);
@@ -65,7 +62,7 @@ public class UserOrderImpl implements IUserOrderServices {
                         .wharehouse(order.getWharehouse())
                         .isPaid(order.getIsPaid())
                         .userName(order.getUser().getUserName())
-                        .addressId(order.getAddress().getId())
+                        .addressId(order.getAddress() != null ? order.getAddress().getId() : null)
                         .date(order.getDate())
                         .statusDescription(order.getStatus().toString())
                         .build();
@@ -80,7 +77,7 @@ public class UserOrderImpl implements IUserOrderServices {
                         .wharehouse(order.getWharehouse())
                         .isPaid(order.getIsPaid())
                         .userName(order.getUser().getUserName())
-                        .addressId(order.getAddress().getId())
+                        .addressId(order.getAddress() != null ? order.getAddress().getId() : null)
                         .date(order.getDate())
                         .statusDescription(order.getStatus().toString())
                         .build()
@@ -96,7 +93,7 @@ public class UserOrderImpl implements IUserOrderServices {
                         .wharehouse(order.getWharehouse())
                         .isPaid(order.getIsPaid())
                         .userName(order.getUser().getUserName())
-                        .addressId(order.getAddress().getId())
+                        .addressId(order.getAddress() != null ? order.getAddress().getId() : null)
                         .date(order.getDate())
                         .statusDescription(order.getStatus().toString())
                         .build()
@@ -132,5 +129,15 @@ public class UserOrderImpl implements IUserOrderServices {
 		orderR.save(us);
 		
 	}
-    
+
+	@Override
+	public void updateStatus(UserOrderReq req) throws Exception {
+		log.debug("updateStatus {}", req);
+
+		UserOrder us = orderR.findById(req.getId())
+				.orElseThrow(() -> new WebServiceExceptions(msgS.get("order_ntfnd")));
+		
+            if (req.getIsPaid())
+    			us.setStatus(Status.valueOf(req.getStatus()));
+	}
 }
