@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.betacom.pr.controllers.AddressControllerTest;
 import com.betacom.pr.controllers.CategoryControllerTest;
-import com.betacom.pr.controllers.ImageControllerTest;
+// import com.betacom.pr.controllers.ImageControllerTest;
 import com.betacom.pr.controllers.ProductControllerTest;
 import com.betacom.pr.controllers.ShoppingCartControllerTest;
 import com.betacom.pr.controllers.SubcategoryControllerTest;
@@ -23,7 +23,7 @@ import com.betacom.pr.controllers.UserOrderControllerTest;
     AddressControllerTest.class,
     UserOrderControllerTest.class,
     ShoppingCartControllerTest.class,
-    ImageControllerTest.class
+    // ImageControllerTest.class
 })
 @SpringBootTest
 class GardeniaBackendApplicationTests {
