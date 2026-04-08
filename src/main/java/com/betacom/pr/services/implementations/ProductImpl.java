@@ -25,9 +25,10 @@ public class ProductImpl implements IProductServices {
 	private final ISubcategoryRepository subcategoryR;
 
 	@Override
-	public void create(ProductReq req) throws Exception {
+	public Integer create(ProductReq req) throws Exception { 
 		log.debug("create product: {}", req);
 		
+		// 1. Creiamo fisicamente il prodotto (QUESTA È LA VARIABILE p CHE MANCAVA!)
 		Product p = new Product();
 		p.setName(req.getName());
 		p.setDescription(req.getDescription());
@@ -35,15 +36,19 @@ public class ProductImpl implements IProductServices {
 		p.setStock(req.getStock());
 		p.setIsDeleted(false);
 		
+		// 2. Impostiamo la Sottocategoria
 		if (req.getSubcategoryId() != null) {
-			Subcategory subCat = subcategoryR.findById(req.getSubcategoryId())
+			Subcategory s = subcategoryR.findById(req.getSubcategoryId())
 					.orElseThrow(() -> new Exception("Sottocategoria non trovata"));
-			p.setSubcategory(subCat); 
+			p.setSubcategory(s);
+		} else {
+			throw new Exception("La sottocategoria è obbligatoria");
 		}
 		
-		productR.save(p);
+		// 3. Salviamo nel database e restituiamo l'ID generato
+		Product savedProduct = productR.save(p);
+		return savedProduct.getId();
 	}
-
 	@Override
 	public void update(ProductReq req) throws Exception {
 		log.debug("update product: {}", req);
