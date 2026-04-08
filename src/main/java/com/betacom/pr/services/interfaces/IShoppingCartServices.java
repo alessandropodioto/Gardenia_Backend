@@ -14,5 +14,6 @@ public interface IShoppingCartServices {
 	
 	List<ShoppingCartDTO> getAllByUserOrder(Integer userOrderId) throws Exception;
 	List<ShoppingCartDTO> getActiveCartByUser(String userName) throws Exception;
+	List<ShoppingCartDTO> getAll();
 
 }
