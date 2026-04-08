@@ -12,10 +12,7 @@ public interface IShoppingCartServices {
 	void update(ShoppingCartReq req) throws Exception;
 	void delete(Integer Id) throws Exception;
 	
-	// Get all cart items for a specific order
 	List<ShoppingCartDTO> getAllByUserOrder(Integer userOrderId) throws Exception;
-	
-	// Get user's active cart (pending order items)
 	List<ShoppingCartDTO> getActiveCartByUser(String userName) throws Exception;
 
 }

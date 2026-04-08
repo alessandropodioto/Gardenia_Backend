@@ -31,14 +31,23 @@ public class ShoppingCartImpl implements IShoppingCartServices {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(ShoppingCartReq req) throws Exception {
-
         log.debug("create {}", req);
 
         ShoppingCart cart = new ShoppingCart();
         cart.setAmount(req.getAmount());
         cart.setPrice(req.getPrice());
-        cart.setProduct(pR.findById(req.getIdProduct()).get());
-        cart.setUserOrder(uoR.findById(req.getIdOrder()).get());
+
+        if (req.getIdProduct() != null) {
+            cart.setProduct(pR.findById(req.getIdProduct())
+                .orElseThrow(() -> new WebServiceExceptions(msgS.get("product_not_found"))));
+        }
+
+        if (req.getIdOrder() != null) {
+            cart.setUserOrder(uoR.findById(req.getIdOrder())
+                .orElseThrow(() -> new WebServiceExceptions(msgS.get("order_not_found"))));
+        } else {
+            cart.setUserOrder(null);
+        }
 
         ssR.save(cart);
     }
@@ -109,6 +118,28 @@ public class ShoppingCartImpl implements IShoppingCartServices {
                     .build()
             ).toList();
     }
+    
+    @Override
+    public List<ShoppingCartDTO> getAll() {
+        List<ShoppingCart> entities = ssR.findAll();
 
+        return entities.stream().map(cart -> {
+            ShoppingCartDTO dto = ShoppingCartDTO.builder()
+                    .id(cart.getId())
+                    .amount(cart.getAmount())
+                    .price(cart.getPrice())
+                    .idProduct(cart.getProduct().getId())
+                    .nome(cart.getProduct().getName())
+                    .build();
 
+            if (cart.getProduct().getImages() != null && !cart.getProduct().getImages().isEmpty()) {
+                String urlImmagine = cart.getProduct().getImages().get(0).getLink();
+                dto.setImmagine(urlImmagine);
+            } else {      
+                dto.setImmagine("assets/placeholder.png");
+            }
+
+            return dto;
+        }).toList();
+    }
 }

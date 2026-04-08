@@ -1,7 +1,9 @@
 package com.betacom.pr.dto.outputs;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -9,6 +11,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class ShoppingCartDTO {
 
@@ -17,5 +21,8 @@ public class ShoppingCartDTO {
 	private Integer idProduct;
 	private Double price;
 	private Integer amount;
+	
+	private String nome;
+    private String immagine;
 	
 }
