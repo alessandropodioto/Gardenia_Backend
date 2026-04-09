@@ -70,7 +70,7 @@ public class UserImpl implements IUserServices {
 		if(req.getPhone() != null)
 			us.setPhone(req.getPhone());
 		if(req.getPassword() != null)
-			us.setPassword(req.getPassword());
+			us.setPassword(passwordEncoder.encode(req.getPassword()));
 		if(req.getRole() != null)
 			us.setRole(Roles.valueOf(req.getRole()));
 
