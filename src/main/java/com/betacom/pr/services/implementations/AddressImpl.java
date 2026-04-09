@@ -84,7 +84,7 @@ public class AddressImpl implements IAddressServices {
                 ).collect(Collectors.toList());
     }
 
-    @Override
+@Override
     public AddressDTO findById(Integer id) throws Exception {
         log.debug("findById {}", id);
         Address address = addressRepository.findById(id)
@@ -98,5 +98,21 @@ public class AddressImpl implements IAddressServices {
                 .street(address.getStreet())
                 .number(address.getNumber())
                 .build();
+    }
+
+    @Override
+    public List<AddressDTO> findByUserName(String userName) throws Exception {
+        log.debug("findByUserName {}", userName);
+        List<Address> addressList = addressRepository.findByUsersUserName(userName);
+        return addressList.stream()
+                .map(a -> AddressDTO.builder()
+                        .id(a.getId())
+                        .country(a.getCountry())
+                        .city(a.getCity())
+                        .postalCode(a.getPostalCode())
+                        .street(a.getStreet())
+                        .number(a.getNumber())
+                        .build()
+                ).collect(Collectors.toList());
     }
 }
