@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IAddressServices {
     Integer create(AddressReq req) throws Exception;
+    void createAndAssign(AddressReq req, String userName) throws Exception;
     void update(AddressReq req) throws Exception;
     void delete(Integer id) throws Exception;
 

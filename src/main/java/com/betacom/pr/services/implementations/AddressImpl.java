@@ -5,6 +5,7 @@ import com.betacom.pr.dto.outputs.AddressDTO;
 import com.betacom.pr.models.Address;
 import com.betacom.pr.repositories.IAddressRepository;
 import com.betacom.pr.services.interfaces.IAddressServices;
+import com.betacom.pr.services.interfaces.IUserServices;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ import java.util.stream.Collectors;
 public class AddressImpl implements IAddressServices {
 
     private final IAddressRepository addressRepository;
+    private final IUserServices userServices;
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public Integer create(AddressReq req) throws Exception {
         log.debug("create {}", req);
@@ -35,6 +36,13 @@ public class AddressImpl implements IAddressServices {
         addressRepository.save(address);
 
         return address.getId();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void createAndAssign(AddressReq req, String userName) throws Exception {
+        Integer addId = create(req);
+        userServices.addAddress(userName, addId);
     }
 
     @Transactional(rollbackFor = Exception.class)

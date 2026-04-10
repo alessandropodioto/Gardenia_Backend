@@ -52,12 +52,12 @@ public class AddressController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Object> create(@RequestBody(required = true) AddressReq req) {
+    public ResponseEntity<Object> create(@RequestBody AddressReq req, @RequestParam String userName) {
         Resp r = new Resp();
         HttpStatus status = HttpStatus.OK;
         try {
-            addressServices.create(req);
-            r.setMsg("Address create");
+            addressServices.createAndAssign(req, userName);
+            r.setMsg("Address created");
         } catch (Exception e) {
             r.setMsg(e.getMessage());
             status = HttpStatus.BAD_REQUEST;
