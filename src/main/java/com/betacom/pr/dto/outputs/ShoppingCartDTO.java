@@ -2,13 +2,11 @@ package com.betacom.pr.dto.outputs;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
+@Data
 @ToString
 @Builder
 @NoArgsConstructor

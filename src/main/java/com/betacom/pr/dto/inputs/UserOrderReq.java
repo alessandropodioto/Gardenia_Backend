@@ -2,6 +2,8 @@ package com.betacom.pr.dto.inputs;
 
 import java.util.List;
 
+import com.betacom.pr.dto.outputs.ShoppingCartDTO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,5 +22,5 @@ public class UserOrderReq {
     private String date;
     private Double totalPrice;
     
-    private List<OrderItemReq> items;
+    private List<ShoppingCartDTO> items;
 }

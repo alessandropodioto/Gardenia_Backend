@@ -52,6 +52,6 @@ public class UserOrder {
     @Column(name = "total_price")
     private Double totalPrice;
     
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> articoli;
+    @OneToMany(mappedBy = "userOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ShoppingCart> products;
 }

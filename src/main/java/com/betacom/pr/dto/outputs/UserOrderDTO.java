@@ -21,5 +21,5 @@ public class UserOrderDTO {
     private String date;
     private Double totalPrice;
     
-    private List<OrderItemDTO> items;
+    private List<ShoppingCartDTO> items;
 }
