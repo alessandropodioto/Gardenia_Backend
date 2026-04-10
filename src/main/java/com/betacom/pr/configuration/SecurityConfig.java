@@ -20,18 +20,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity                          // ← not @EnableWebFluxSecurity
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
-                )
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults());
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	    http
+	            .cors(Customizer.withDefaults())        
+	            .csrf(AbstractHttpConfigurer::disable)
+	            .authorizeHttpRequests(auth -> auth
+	                    .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+	                    .anyRequest().permitAll()
+	            )
+	            .httpBasic(Customizer.withDefaults())
+	            .formLogin(Customizer.withDefaults());
 
-        return http.build();
-    }
+	    return http.build();
+	}
 
     @Bean
     WebMvcConfigurer corsConfigurer() {

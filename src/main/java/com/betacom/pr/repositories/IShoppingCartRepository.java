@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.betacom.pr.models.ShoppingCart;
+import com.betacom.pr.models.User;
 
 import java.util.List;
 
@@ -17,5 +18,9 @@ public interface IShoppingCartRepository extends JpaRepository<ShoppingCart, Int
 	// Find all cart items for a user's pending order (active cart)
 	@Query("SELECT sc FROM ShoppingCart sc WHERE sc.userOrder.user.userName = ?1 AND sc.userOrder.status = 'PENDING'")
 	List<ShoppingCart> findActiveCartByUser(String userName);
+	
+	List<ShoppingCart> findByUserAndUserOrderIsNull(User user);
+	
+	List<ShoppingCart> findByUser_UserNameAndUserOrderIsNull(String userName);
 
 }
