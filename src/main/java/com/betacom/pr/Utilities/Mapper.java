@@ -3,17 +3,21 @@ package com.betacom.pr.Utilities;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.betacom.pr.dto.inputs.UserOrderReq;
 import com.betacom.pr.dto.outputs.CategoryDTO;
 import com.betacom.pr.dto.outputs.ImageDTO;
 import com.betacom.pr.dto.outputs.ProductDTO;
 import com.betacom.pr.dto.outputs.ShoppingCartDTO;
 import com.betacom.pr.dto.outputs.SubcategoryDTO;
-
+import com.betacom.pr.enums.Status;
+import com.betacom.pr.models.Address;
 import com.betacom.pr.models.Category;
 import com.betacom.pr.models.Image;
 import com.betacom.pr.models.Product;
 import com.betacom.pr.models.ShoppingCart;
 import com.betacom.pr.models.Subcategory;
+import com.betacom.pr.models.User;
+import com.betacom.pr.models.UserOrder;
 
 public class Mapper {
 
@@ -107,5 +111,42 @@ public class Mapper {
 	    return ls.stream()
 	            .map(Mapper::buildShoppingCartDTO)
 	            .collect(Collectors.toList());
+	}
+	
+	public static UserOrder buildUserOrder(UserOrderReq req) {
+	    if (req == null) return null;
+	    
+	    UserOrder order = new UserOrder();
+	    order.setWharehouse(req.getWharehouse());
+	    order.setIsPaid(req.getIsPaid());
+	    order.setDate(req.getDate());
+
+	    // Associazione Utente
+	    if (req.getUserId() != null) {
+	        User u = new User();
+	        // Nota: Assicurati che User.java abbia il metodo setUserName o setId
+	        u.setUserName(req.getUserId()); 
+	        order.setUser(u);
+	    }
+
+	    // Associazione Indirizzo
+	    if (req.getAddressId() != null) {
+	        Address addr = new Address();
+	        addr.setId(req.getAddressId());
+	        order.setAddress(addr);
+	    }
+
+	    // Conversione Status (String -> Enum)
+	    if (req.getStatus() != null) {
+	        try {
+	            // Converte la stringa in Enum (es. "PENDING")
+	            order.setStatus(Status.valueOf(req.getStatus().toUpperCase()));
+	        } catch (IllegalArgumentException e) {
+	            // Se la stringa non esiste nella Enum, mettiamo PENDING di default
+	            order.setStatus(Status.PENDING);
+	        }
+	    }
+
+	    return order;
 	}
 }

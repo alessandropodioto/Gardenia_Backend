@@ -1,5 +1,7 @@
 package com.betacom.pr.dto.inputs;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,4 +18,7 @@ public class UserOrderReq {
     private Integer addressId;
     private String status;
     private String date;
+    private Double totalPrice;
+    
+    private List<OrderItemReq> items;
 }
