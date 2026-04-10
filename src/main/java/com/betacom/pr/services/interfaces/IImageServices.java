@@ -13,4 +13,5 @@ public interface IImageServices {
 	
 	List<ImageDTO> list();
 	ImageDTO getById(Integer id) throws Exception;
+	List<ImageDTO> getByProductId(Integer productId) throws Exception;
 }

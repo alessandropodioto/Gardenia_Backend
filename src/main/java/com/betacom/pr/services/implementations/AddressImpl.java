@@ -5,6 +5,7 @@ import com.betacom.pr.dto.outputs.AddressDTO;
 import com.betacom.pr.models.Address;
 import com.betacom.pr.repositories.IAddressRepository;
 import com.betacom.pr.services.interfaces.IAddressServices;
+import com.betacom.pr.services.interfaces.IUserServices;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ import java.util.stream.Collectors;
 public class AddressImpl implements IAddressServices {
 
     private final IAddressRepository addressRepository;
+    private final IUserServices userServices;
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public Integer create(AddressReq req) throws Exception {
         log.debug("create {}", req);
@@ -35,6 +36,13 @@ public class AddressImpl implements IAddressServices {
         addressRepository.save(address);
 
         return address.getId();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void createAndAssign(AddressReq req, String userName) throws Exception {
+        Integer addId = create(req);
+        userServices.addAddress(userName, addId);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -84,7 +92,7 @@ public class AddressImpl implements IAddressServices {
                 ).collect(Collectors.toList());
     }
 
-    @Override
+@Override
     public AddressDTO findById(Integer id) throws Exception {
         log.debug("findById {}", id);
         Address address = addressRepository.findById(id)
@@ -98,5 +106,21 @@ public class AddressImpl implements IAddressServices {
                 .street(address.getStreet())
                 .number(address.getNumber())
                 .build();
+    }
+
+    @Override
+    public List<AddressDTO> findByUserName(String userName) throws Exception {
+        log.debug("findByUserName {}", userName);
+        List<Address> addressList = addressRepository.findByUsersUserName(userName);
+        return addressList.stream()
+                .map(a -> AddressDTO.builder()
+                        .id(a.getId())
+                        .country(a.getCountry())
+                        .city(a.getCity())
+                        .postalCode(a.getPostalCode())
+                        .street(a.getStreet())
+                        .number(a.getNumber())
+                        .build()
+                ).collect(Collectors.toList());
     }
 }

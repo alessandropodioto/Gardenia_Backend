@@ -7,10 +7,11 @@ import com.betacom.pr.dto.outputs.ProductDTO;
 
 public interface IProductServices {
 	
-	void create(ProductReq req) throws Exception;
+	Integer create(ProductReq req) throws Exception;
 	void update(ProductReq req) throws Exception;
 	void delete(Integer id) throws Exception;
 	
 	List<ProductDTO> list();
 	ProductDTO getById(Integer id) throws Exception;
+	List<ProductDTO> getBySubcategoryId(Integer subcategoryId) throws Exception;
 }

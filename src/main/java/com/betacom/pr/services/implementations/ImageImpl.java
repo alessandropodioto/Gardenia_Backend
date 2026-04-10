@@ -24,23 +24,20 @@ public class ImageImpl implements IImageServices {
 	private final IImageRepository imageR;
 	private final IProductRepository productR;
 
+	
 	@Override
 	public void create(ImageReq req) throws Exception {
-		log.debug("create image: {}", req);
-		
-		Image img = new Image();
-		img.setLink(req.getLink()); 
-		
-		
-		if (req.getProductId() != null) {
-			Product p = productR.findById(req.getProductId())
-					.orElseThrow(() -> new Exception("Prodotto non trovato"));
-			img.setProduct(p);
-		} else {
-			throw new Exception("L'ID del prodotto è obbligatorio per salvare un'immagine");
-		}
-		
-		imageR.save(img);
+	   
+	    Product product = productR.findById(req.getProductId())
+	            .orElseThrow(() -> new Exception("Prodotto non trovato con ID: " + req.getProductId()));
+	    
+	   
+	    Image img = new Image();
+	    img.setLink(req.getLink());
+	    img.setProduct(product);
+	    
+	   
+	    imageR.save(img); 
 	}
 
 	@Override
@@ -87,5 +84,12 @@ public class ImageImpl implements IImageServices {
 				.orElseThrow(() -> new Exception("Immagine non trovata"));
 		
 		return Mapper.buildImageDTO(img);
+	}
+
+	@Override
+	public List<ImageDTO> getByProductId(Integer productId) throws Exception {
+		log.debug("getByProductId: {}", productId);
+		List<Image> images = imageR.findAllByProduct_Id(productId);
+		return Mapper.buildImageDTO(images);
 	}
 }

@@ -22,6 +22,10 @@ import lombok.Setter;
 		private Integer id;
 		
 		@ManyToOne
+	    @JoinColumn(name = "user_name")
+	    private User user;
+		
+		@ManyToOne
 		@JoinColumn(name="id_user_order")
 		private UserOrder userOrder;
 		
@@ -30,9 +34,10 @@ import lombok.Setter;
 		private Product product;
 		
 		@Column (nullable = false)
-		private Integer price;
+		private Double price;
 		
 		@Column (nullable = false)
 		private Integer amount;
+		
 
 }

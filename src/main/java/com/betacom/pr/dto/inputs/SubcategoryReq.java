@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SubcategoryReq {
-	private Integer subcategoryId;
+	private Integer id;
 	 private String subcategoryName;
 	 private Integer categoryId;
 }

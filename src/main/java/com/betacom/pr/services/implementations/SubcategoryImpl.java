@@ -47,7 +47,7 @@ public class SubcategoryImpl implements ISubcategoryServices {
 	public void update(SubcategoryReq req) throws Exception {
 		log.debug("update subcategory: {}", req);
 		
-		Subcategory s = subcategoryR.findById(req.getSubcategoryId())
+		Subcategory s = subcategoryR.findById(req.getId())
 				.orElseThrow(() -> new Exception("Sottocategoria non trovata"));
 		
 		if (req.getSubcategoryName() != null) {
@@ -77,6 +77,13 @@ public class SubcategoryImpl implements ISubcategoryServices {
 		log.debug("list subcategories");
 		List<Subcategory> lS = subcategoryR.findAll();
 		return Mapper.buildSubcategoryDTO(lS); 
+	}
+
+	@Override
+	public List<SubcategoryDTO> listByCategory_Id(Integer categoryId) {
+		log.debug("list by category id: {}", categoryId);
+		List<Subcategory> lS = subcategoryR.findAllByCategory_Id(categoryId);
+		return Mapper.buildSubcategoryDTO(lS);
 	}
 
 	@Override

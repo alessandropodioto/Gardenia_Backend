@@ -52,12 +52,12 @@ public class AddressController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Object> create(@RequestBody(required = true) AddressReq req) {
+    public ResponseEntity<Object> create(@RequestBody AddressReq req, @RequestParam String userName) {
         Resp r = new Resp();
         HttpStatus status = HttpStatus.OK;
         try {
-            addressServices.create(req);
-            r.setMsg("Address create");
+            addressServices.createAndAssign(req, userName);
+            r.setMsg("Address created");
         } catch (Exception e) {
             r.setMsg(e.getMessage());
             status = HttpStatus.BAD_REQUEST;
@@ -79,7 +79,7 @@ public class AddressController {
         return ResponseEntity.status(status).body(r);
     }
 
-    @DeleteMapping("/delete")
+@DeleteMapping("/delete")
     public ResponseEntity<Object> delete(@RequestBody(required = true) Integer id) {
         Resp r = new Resp();
         HttpStatus status = HttpStatus.OK;
@@ -88,6 +88,19 @@ public class AddressController {
             r.setMsg("Address deleted");
         } catch (Exception e) {
             r.setMsg(e.getMessage());
+            status = HttpStatus.BAD_REQUEST;
+        }
+        return ResponseEntity.status(status).body(r);
+    }
+
+    @GetMapping("/myAddresses")
+    public ResponseEntity<Object> findByUserName(@RequestParam String userName) {
+        Object r = new Object();
+        HttpStatus status = HttpStatus.OK;
+        try {
+            r = addressServices.findByUserName(userName);
+        } catch (Exception e) {
+            r = e.getMessage();
             status = HttpStatus.BAD_REQUEST;
         }
         return ResponseEntity.status(status).body(r);

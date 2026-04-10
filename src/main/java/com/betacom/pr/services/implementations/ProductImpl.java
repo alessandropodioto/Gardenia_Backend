@@ -25,38 +25,42 @@ public class ProductImpl implements IProductServices {
 	private final ISubcategoryRepository subcategoryR;
 
 	@Override
-	public void create(ProductReq req) throws Exception {
+	public Integer create(ProductReq req) throws Exception { 
 		log.debug("create product: {}", req);
 		
+		// 1. Creiamo fisicamente il prodotto (QUESTA È LA VARIABILE p CHE MANCAVA!)
 		Product p = new Product();
 		p.setName(req.getName());
 		p.setDescription(req.getDescription());
 		p.setPrice(req.getPrice());
 		p.setStock(req.getStock());
+		p.setIsDeleted(false);
 		
-		
+		// 2. Impostiamo la Sottocategoria
 		if (req.getSubcategoryId() != null) {
-			Subcategory subCat = subcategoryR.findById(req.getSubcategoryId())
+			Subcategory s = subcategoryR.findById(req.getSubcategoryId())
 					.orElseThrow(() -> new Exception("Sottocategoria non trovata"));
-			p.setSubcategory(subCat); 
+			p.setSubcategory(s);
+		} else {
+			throw new Exception("La sottocategoria è obbligatoria");
 		}
 		
-		productR.save(p);
+		// 3. Salviamo nel database e restituiamo l'ID generato
+		Product savedProduct = productR.save(p);
+		return savedProduct.getId();
 	}
-
 	@Override
 	public void update(ProductReq req) throws Exception {
 		log.debug("update product: {}", req);
-		
-		
+
 		Product p = productR.findById(req.getId())
 				.orElseThrow(() -> new Exception("Prodotto non trovato"));
-		
 		
 		if (req.getName() != null) p.setName(req.getName());
 		if (req.getDescription() != null) p.setDescription(req.getDescription());
 		if (req.getPrice() != null) p.setPrice(req.getPrice());
 		if (req.getStock() != null) p.setStock(req.getStock());
+		if (req.getIsDeleted() != null) p.setIsDeleted(req.getIsDeleted());
 		
 		
 		if (req.getSubcategoryId() != null) {
@@ -92,5 +96,16 @@ public class ProductImpl implements IProductServices {
 				.orElseThrow(() -> new Exception("Prodotto non trovato"));
 		
 		return Mapper.buildProductDTO(p);
+	}
+
+	@Override
+	public List<ProductDTO> getBySubcategoryId(Integer subcategoryId) throws Exception {
+		log.debug("getBySubcategoryId: {}", subcategoryId);
+
+		Subcategory subcategory = subcategoryR.findById(subcategoryId)
+				.orElseThrow(() -> new Exception("Sottocategoria non trovata"));
+
+		List<Product> products = productR.findAllBySubcategory_Id(subcategory.getId());
+		return Mapper.buildProductDTO(products);
 	}
 }

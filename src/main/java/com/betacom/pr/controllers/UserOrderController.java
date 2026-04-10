@@ -2,6 +2,7 @@ package com.betacom.pr.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betacom.pr.dto.inputs.UserOrderReq;
-import com.betacom.pr.models.User;
 import com.betacom.pr.response.Resp;
 import com.betacom.pr.services.interfaces.IMessaggioServices;
 import com.betacom.pr.services.interfaces.IUserOrderServices;
@@ -21,13 +21,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("rest/order")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserOrderController {
 
     private final IUserOrderServices orderS;
     private final IMessaggioServices msgS;
 
     @PostMapping("/create")
-    public ResponseEntity<Resp> create(@RequestBody(required = true) UserOrderReq req) {
+    public ResponseEntity<Resp> create(@RequestBody UserOrderReq req) {
         Resp r = new Resp();
         HttpStatus status = HttpStatus.OK;
         try {
@@ -41,7 +42,7 @@ public class UserOrderController {
     }
     
 	@PutMapping("/update")
-	public ResponseEntity<Resp> update(@RequestBody(required = true)  UserOrderReq req){
+	public ResponseEntity<Resp> update(@RequestBody UserOrderReq req){
 		Resp r = new Resp();
 		HttpStatus status = HttpStatus.OK;
 		try {
@@ -68,7 +69,7 @@ public class UserOrderController {
     }
 
     @GetMapping("/getById")
-    public ResponseEntity<Object> getById(@RequestParam(required = true) Integer id) {
+    public ResponseEntity<Object> getById(@RequestParam Integer id) {
         Object r;
         HttpStatus status = HttpStatus.OK;
         try {
@@ -81,11 +82,11 @@ public class UserOrderController {
     }
 
     @GetMapping("/listByUser")
-    public ResponseEntity<Object> listByUser(@RequestParam(required = true) User userId) {
+    public ResponseEntity<Object> listByUser(@RequestParam String userName) {
         Object r;
         HttpStatus status = HttpStatus.OK;
         try {
-            r = orderS.getByUserId(userId);
+            r = orderS.getByUserId(userName);
         } catch (Exception e) {
             r = e.getMessage();
             status = HttpStatus.BAD_REQUEST;

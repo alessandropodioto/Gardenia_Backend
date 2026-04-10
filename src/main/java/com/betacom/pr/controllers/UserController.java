@@ -2,15 +2,7 @@ package com.betacom.pr.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.betacom.pr.dto.inputs.LoginReq;
 import com.betacom.pr.dto.inputs.UserReq;
@@ -20,6 +12,7 @@ import com.betacom.pr.services.interfaces.IUserServices;
 
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("rest/user")
@@ -56,12 +49,12 @@ public class UserController {
 		return ResponseEntity.status(status).body(r);		
 	}
 	
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Resp> delete(@PathVariable(required = true)  String id){ 
+	@DeleteMapping("/delete/{userName}")
+	public ResponseEntity<Resp> delete(@PathVariable(required = true)  String userName){
 		Resp r = new Resp();
 		HttpStatus status = HttpStatus.OK;
 		try {
-			usS.delete(id);
+			usS.delete(userName);
 			r.setMsg(msgS.get("rest_deleted"));
 		} catch (Exception e) {
 			r.setMsg(e.getMessage());
@@ -91,6 +84,20 @@ public class UserController {
 			r= usS.getByUserName(id);
 		} catch (Exception e) {
 			r=e.getMessage();
+			status = HttpStatus.BAD_REQUEST;
+		}
+		return ResponseEntity.status(status).body(r);
+	}
+
+	@PostMapping("/{username}/addresses")
+	public ResponseEntity<Resp> addAddress(@PathVariable(required = true)  String username, @RequestParam(required = true) Integer addressId){
+		Resp r = new Resp();
+		HttpStatus status = HttpStatus.OK;
+		try {
+			usS.addAddress(username, addressId);
+			r.setMsg(msgS.get("rest_added"));
+		} catch (Exception e) {
+			r.setMsg(e.getMessage());
 			status = HttpStatus.BAD_REQUEST;
 		}
 		return ResponseEntity.status(status).body(r);
