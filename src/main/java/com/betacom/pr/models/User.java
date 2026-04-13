@@ -41,7 +41,9 @@ public class User {
 	
 	@Column (length = 100, nullable = false)
 	private Roles role;
-	
+
+	@Column(nullable = false)
+	private Boolean enabled = false;
 	@ManyToMany
     @JoinTable(
         name = "user_address",

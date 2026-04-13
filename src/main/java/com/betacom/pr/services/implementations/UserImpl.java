@@ -21,7 +21,7 @@ import com.betacom.pr.models.User;
 import com.betacom.pr.repositories.IUserRepository;
 import com.betacom.pr.services.interfaces.IMessaggioServices;
 import com.betacom.pr.services.interfaces.IUserServices;
-
+import com.betacom.pr.services.interfaces.IMailServices;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,7 +35,7 @@ public class UserImpl implements IUserServices {
 	// private final IAddressServices addS;
 	private final IAddressRepository addR;
 	private final PasswordEncoder passwordEncoder;
-
+	private final IMailServices mailS;
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void create(UserReq req) throws Exception {
@@ -52,9 +52,9 @@ public class UserImpl implements IUserServices {
 		us.setPhone(req.getPhone());
 		us.setPassword(passwordEncoder.encode(req.getPassword()));
 		us.setRole(Roles.USER);
-
+		us.setEnabled(false);
 		usR.save(us);
-
+		mailS.sendValidationEmail(us.getEmail(), us.getUserName());
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -147,11 +147,50 @@ public class UserImpl implements IUserServices {
 		
 		if (!passwordEncoder.matches(req.getPassword(), us.getPassword()))
 			throw new Exception(msgS.get("login_invalid"));
-		
+		if (!us.getEnabled()) {
+			throw new Exception("You must validate your email before logging in!");
+		}
 		return LoginDTO.builder()
 				.id(us.getUserName())
 				.role(us.getRole().toString())
 				.build();	
 	}
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public void mailValidate(String id) throws Exception {
+		log.debug("mailValidate {}", id);
+		
+		User us = usR.findById(id)
+				.orElseThrow(() -> new WebServiceExceptions(msgS.get("user_ntfnd")));
 
+	
+		if (us.getEnabled()) {
+			throw new WebServiceExceptions("Account already validated."); 
+		}
+
+	
+		us.setEnabled(true);
+		usR.save(us);
+	}
+	@Override
+	public void requestPasswordReset(String userName) throws Exception {
+		
+		User us = usR.findById(userName)
+				.orElseThrow(() -> new WebServiceExceptions("User not found"));
+		
+		
+		mailS.sendResetPasswordEmail(us.getEmail(), us.getUserName());
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public void changePassword(com.betacom.pr.dto.inputs.ChangePwdReq req) throws Exception {
+		
+		User us = usR.findById(req.getUserName())
+				.orElseThrow(() -> new WebServiceExceptions("User not found"));
+		
+		
+		us.setPassword(passwordEncoder.encode(req.getNewPassword()));
+		usR.save(us);
+	}
 }
