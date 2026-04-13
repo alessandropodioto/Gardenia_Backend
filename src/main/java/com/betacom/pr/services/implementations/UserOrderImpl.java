@@ -38,46 +38,56 @@ public class UserOrderImpl implements IUserOrderServices {
     private final IMessaggioServices msgS;
     private final IShoppingCartRepository shopCartR;
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void create(UserOrderReq req) throws Exception {
-	    log.debug("Creazione ordine per utente id: {}", req.getUserId());
-	
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void create(UserOrderReq req) throws Exception {
+        log.debug("Creazione ordine per utente id: {}", req.getUserId());
 
-	    User user = userR.findByUserName(req.getUserId()) 
-	            .orElseThrow(() -> new Exception("Utente non trovato: " + req.getUserId()));
-	
-	   
-	    UserOrder order = new UserOrder();
-	    order.setUser(user);
-	    order.setDate(req.getDate());
-	    order.setTotalPrice(req.getTotalPrice());
-	    order.setWharehouse(req.getWharehouse());
-	    
-	    if (req.getStatus() != null) {
-	        order.setStatus(Status.valueOf(req.getStatus().toUpperCase()));
-	    } else {
-	        order.setStatus(Status.PENDING);
-	    }
-	    
-	    order.setIsPaid(req.getIsPaid() != null ? req.getIsPaid() : false);
-	
-	    UserOrder savedOrder = orderR.save(order);
-	
-	    List<ShoppingCart> activeCartItems = shopCartR.findByUserAndUserOrderIsNull(user);
-	
-	    if (activeCartItems.isEmpty()) {
-	        log.warn("Tentativo di creare un ordine con carrello vuoto per l'utente: {}", user.getUserName());
-	    }
-	
-	    for (ShoppingCart cartItem : activeCartItems) {
-	        cartItem.setUserOrder(savedOrder);
-	    }
+        User user = userR.findByUserName(req.getUserId()) 
+                .orElseThrow(() -> new Exception("Utente non trovato: " + req.getUserId()));
 
-	    shopCartR.saveAll(activeCartItems);
-	    
-	    log.info("Ordine {} creato con successo e carrello aggiornato.", savedOrder.getId());
-	}
+        UserOrder order = new UserOrder();
+        order.setUser(user);
+        order.setDate(req.getDate());
+        order.setTotalPrice(req.getTotalPrice());
+        order.setWharehouse(req.getWharehouse());
+        
+        if (req.getStatus() != null) {
+            order.setStatus(Status.valueOf(req.getStatus().toUpperCase()));
+        } else {
+            order.setStatus(Status.PENDING);
+        }
+        
+        order.setIsPaid(req.getIsPaid() != null ? req.getIsPaid() : false);
+
+        UserOrder savedOrder = orderR.save(order);
+
+        List<ShoppingCart> activeCartItems = shopCartR.findByUserAndUserOrderIsNull(user);
+
+        if (activeCartItems.isEmpty()) {
+            log.warn("Tentativo di creare un ordine con carrello vuoto per l'utente: {}", user.getUserName());
+            throw new Exception("Carrello vuoto");
+        }
+
+        for (ShoppingCart cartItem : activeCartItems) {
+            Product product = cartItem.getProduct();
+            
+            int quantityOrdered = cartItem.getAmount();
+            int currentStock = product.getStock();
+
+            if (currentStock < quantityOrdered) {
+                throw new Exception("Stock insufficiente per: " + product.getName());
+            }
+
+            product.setStock(currentStock - quantityOrdered);
+            
+            cartItem.setUserOrder(savedOrder);
+        }
+
+        shopCartR.saveAll(activeCartItems);
+        
+        log.info("Ordine {} creato con successo. Stock aggiornato.", savedOrder.getId());
+    }
 
     @Override
     public UserOrderDTO getById(Integer id) throws Exception {

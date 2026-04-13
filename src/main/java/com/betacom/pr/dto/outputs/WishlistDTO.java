@@ -10,5 +10,8 @@ public class WishlistDTO {
     private Integer productId;
     private String productName;
     private Double price;
-    private String immagine; // Per farla vedere subito nel frontend
+    private String immagine;
+    private Integer productStock;
+    
+    
 }

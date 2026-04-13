@@ -166,7 +166,6 @@ public class Mapper {
         
         // Controlliamo se il prodotto ha immagini
         if (w.getProduct().getImages() != null && !w.getProduct().getImages().isEmpty()) {
-            // Prendi la prima immagine e usa il getter corretto (es. getPath, getUrl, etc.)
             imagePath = w.getProduct().getImages().get(0).getLink(); 
         }
 
@@ -175,6 +174,7 @@ public class Mapper {
                 .productId(w.getProduct().getId())
                 .productName(w.getProduct().getName())
                 .price(w.getProduct().getPrice())
+                .productStock(w.getProduct().getStock()) 
                 .immagine(imagePath)
                 .build();
     }
