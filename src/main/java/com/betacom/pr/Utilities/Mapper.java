@@ -10,6 +10,7 @@ import com.betacom.pr.dto.outputs.ProductDTO;
 import com.betacom.pr.dto.outputs.ShoppingCartDTO;
 import com.betacom.pr.dto.outputs.SubcategoryDTO;
 import com.betacom.pr.dto.outputs.UserOrderDTO;
+import com.betacom.pr.dto.outputs.WishlistDTO;
 import com.betacom.pr.enums.Status;
 import com.betacom.pr.models.Address;
 import com.betacom.pr.models.Category;
@@ -18,6 +19,7 @@ import com.betacom.pr.models.Product;
 import com.betacom.pr.models.ShoppingCart;
 import com.betacom.pr.models.Subcategory;
 import com.betacom.pr.models.UserOrder;
+import com.betacom.pr.models.Wishlist;
 
 public class Mapper {
 
@@ -157,5 +159,29 @@ public class Mapper {
         }
 
         return order;
+    }
+    
+    public static WishlistDTO buildWishlistDTO(Wishlist w) {
+        String imagePath = null;
+        
+        // Controlliamo se il prodotto ha immagini
+        if (w.getProduct().getImages() != null && !w.getProduct().getImages().isEmpty()) {
+            // Prendi la prima immagine e usa il getter corretto (es. getPath, getUrl, etc.)
+            imagePath = w.getProduct().getImages().get(0).getLink(); 
+        }
+
+        return WishlistDTO.builder()
+                .id(w.getId())
+                .productId(w.getProduct().getId())
+                .productName(w.getProduct().getName())
+                .price(w.getProduct().getPrice())
+                .immagine(imagePath)
+                .build();
+    }
+    
+    public static List<WishlistDTO> buildWishlistDTOList(List<Wishlist> list) {
+        return list.stream()
+                .map(Mapper::buildWishlistDTO)
+                .collect(Collectors.toList());
     }
 }
