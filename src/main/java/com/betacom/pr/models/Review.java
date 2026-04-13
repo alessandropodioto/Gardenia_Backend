@@ -16,8 +16,9 @@ public class Review {
     private String userName;
     private int rating;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", length = 500)
     private String comment;
 
-    private LocalDateTime date = LocalDateTime.now();
+    @Column(name = "date", updatable = false)
+    private LocalDateTime date;
 }
