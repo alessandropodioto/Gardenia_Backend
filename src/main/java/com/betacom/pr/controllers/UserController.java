@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.betacom.pr.dto.inputs.ChangePwdReq;
 import com.betacom.pr.dto.inputs.LoginReq;
 import com.betacom.pr.dto.inputs.UserReq;
 import com.betacom.pr.response.Resp;
@@ -116,6 +117,48 @@ public class UserController {
 		}
 		return ResponseEntity.status(status).body(r);
 	}
+	@GetMapping("/emailValidate")
+	public ResponseEntity<Resp> emailValidate(@RequestParam(required = true) String id) {
+		Resp r = new Resp();
+		HttpStatus status = HttpStatus.OK;
+		try {
+			
+			usS.mailValidate(id); 
+			r.setMsg(msgS.get("rest_email_validated")); 
+		} catch (Exception e) {
+			r.setMsg(e.getMessage());
+			status = HttpStatus.BAD_REQUEST;
+		}
+		return ResponseEntity.status(status).body(r);
+	}
 	
+		@GetMapping("/requestResetPassword")
+		public ResponseEntity<Resp> requestResetPassword(@RequestParam(required = true) String userName) {
+			Resp r = new Resp();
+			HttpStatus status = HttpStatus.OK;
+			try {
+				usS.requestPasswordReset(userName);
+				r.setMsg("Email di recupero inviata con successo.");
+			} catch (Exception e) {
+				r.setMsg(e.getMessage());
+				status = HttpStatus.BAD_REQUEST;
+			}
+			return ResponseEntity.status(status).body(r);
+		}
+
+		
+		@PostMapping("/changePassword")
+		public ResponseEntity<Resp> changePassword(@RequestBody ChangePwdReq req) {
+			Resp r = new Resp();
+			HttpStatus status = HttpStatus.OK;
+			try {
+				usS.changePassword(req);
+				r.setMsg("Password modificata con successo.");
+			} catch (Exception e) {
+				r.setMsg(e.getMessage());
+				status = HttpStatus.BAD_REQUEST;
+			}
+			return ResponseEntity.status(status).body(r);
+		}
 
 }

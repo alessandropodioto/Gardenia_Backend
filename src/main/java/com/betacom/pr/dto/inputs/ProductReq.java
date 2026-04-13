@@ -15,4 +15,5 @@ public class ProductReq {
     private Integer stock;
     private Integer subcategoryId;
     private Boolean isDeleted;
+    
 }
