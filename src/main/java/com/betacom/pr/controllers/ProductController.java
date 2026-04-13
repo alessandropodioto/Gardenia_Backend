@@ -1,5 +1,8 @@
 package com.betacom.pr.controllers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,14 +29,17 @@ public class ProductController {
 	private final IProductServices productS;
 	
 	@PostMapping("/create")
-	public ResponseEntity<Resp> create(@RequestBody(required = true) ProductReq req){
-		Resp r = new Resp();
+	public ResponseEntity<Object> create(@RequestBody(required = true) ProductReq req){
+		// Usiamo una HashMap per restituire sia un messaggio testuale che l'ID del prodotto!
+		Map<String, Object> r = new HashMap<>(); 
 		HttpStatus status = HttpStatus.OK;
 		try {
-			productS.create(req);
-			r.setMsg("Prodotto creato con successo");
+			// Salviamo l'ID restituito dal service
+			Integer newId = productS.create(req);
+			r.put("msg", "Prodotto creato con successo");
+			r.put("id", newId); // <-- ECCO L'ID! Ora Angular saprà a chi associare la foto
 		} catch (Exception e) {
-			r.setMsg(e.getMessage());
+			r.put("msg", e.getMessage());
 			status = HttpStatus.BAD_REQUEST;
 		}
 		return ResponseEntity.status(status).body(r);		
@@ -72,7 +78,6 @@ public class ProductController {
 		Object r;
 		HttpStatus status = HttpStatus.OK;
 		try {
-			
 			r = productS.list(); 
 		} catch (Exception e) {
 			r = e.getMessage();
