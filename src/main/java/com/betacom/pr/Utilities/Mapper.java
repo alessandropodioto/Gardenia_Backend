@@ -90,7 +90,7 @@ public class Mapper {
         return lp == null ? null : lp.stream().map(Mapper::buildProductDTO).collect(Collectors.toList());
     }
     
-    // --- CARRELLO (Trasformazione fondamentale per Front-end) ---
+    // --- CARRELLO ---
     public static ShoppingCartDTO buildShoppingCartDTO(ShoppingCart s) {
         if (s == null) return null;
         
@@ -104,7 +104,6 @@ public class Mapper {
                    .nome(s.getProduct().getName())
                    .productStock(s.getProduct().getStock());
             
-            // Prende la prima immagine se presente
             if (s.getProduct().getImages() != null && !s.getProduct().getImages().isEmpty()) {
                 builder.immagine(s.getProduct().getImages().get(0).getLink());
             }
@@ -117,7 +116,7 @@ public class Mapper {
         return ls == null ? null : ls.stream().map(Mapper::buildShoppingCartDTO).collect(Collectors.toList());
     }
 
-    // --- ORDINI (Output verso Front-end) ---
+    // --- ORDINI ---
     public static UserOrderDTO buildUserOrderDTO(UserOrder order) {
         if (order == null) return null;
 
@@ -138,7 +137,7 @@ public class Mapper {
         return lo == null ? null : lo.stream().map(Mapper::buildUserOrderDTO).collect(Collectors.toList());
     }
 
-    // --- ORDINI (Input da Front-end) ---
+    // --- ORDINI ---
     public static UserOrder buildUserOrder(UserOrderReq req) {
         if (req == null) return null;
         
@@ -161,10 +160,10 @@ public class Mapper {
         return order;
     }
     
+    	// --- WISHLIST ---
     public static WishlistDTO buildWishlistDTO(Wishlist w) {
         String imagePath = null;
         
-        // Controlliamo se il prodotto ha immagini
         if (w.getProduct().getImages() != null && !w.getProduct().getImages().isEmpty()) {
             imagePath = w.getProduct().getImages().get(0).getLink(); 
         }

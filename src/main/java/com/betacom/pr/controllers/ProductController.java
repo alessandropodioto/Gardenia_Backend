@@ -30,14 +30,12 @@ public class ProductController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<Object> create(@RequestBody(required = true) ProductReq req){
-		// Usiamo una HashMap per restituire sia un messaggio testuale che l'ID del prodotto!
 		Map<String, Object> r = new HashMap<>(); 
 		HttpStatus status = HttpStatus.OK;
 		try {
-			// Salviamo l'ID restituito dal service
 			Integer newId = productS.create(req);
 			r.put("msg", "Prodotto creato con successo");
-			r.put("id", newId); // <-- ECCO L'ID! Ora Angular saprà a chi associare la foto
+			r.put("id", newId);
 		} catch (Exception e) {
 			r.put("msg", e.getMessage());
 			status = HttpStatus.BAD_REQUEST;

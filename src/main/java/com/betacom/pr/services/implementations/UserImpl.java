@@ -163,12 +163,10 @@ public class UserImpl implements IUserServices {
 		User us = usR.findById(id)
 				.orElseThrow(() -> new WebServiceExceptions(msgS.get("user_ntfnd")));
 
-	
 		if (us.getEnabled()) {
 			throw new WebServiceExceptions("Account already validated."); 
 		}
 
-	
 		us.setEnabled(true);
 		usR.save(us);
 	}
@@ -177,8 +175,7 @@ public class UserImpl implements IUserServices {
 		
 		User us = usR.findById(userName)
 				.orElseThrow(() -> new WebServiceExceptions("User not found"));
-		
-		
+			
 		mailS.sendResetPasswordEmail(us.getEmail(), us.getUserName());
 	}
 
@@ -188,7 +185,6 @@ public class UserImpl implements IUserServices {
 		
 		User us = usR.findById(req.getUserName())
 				.orElseThrow(() -> new WebServiceExceptions("User not found"));
-		
 		
 		us.setPassword(passwordEncoder.encode(req.getNewPassword()));
 		usR.save(us);

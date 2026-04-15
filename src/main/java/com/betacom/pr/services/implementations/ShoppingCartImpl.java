@@ -74,12 +74,10 @@ public class ShoppingCartImpl implements IShoppingCartServices {
     public List<ShoppingCartDTO> getActiveCartByUser(String userName) throws Exception {
         log.debug("Recupero carrello attivo per utente: {}", userName);
         
-        // Recuperiamo l'utente e cerchiamo gli item nel carrello
         List<ShoppingCart> entities = ssR.findByUserAndUserOrderIsNull(
             uR.findById(userName).orElseThrow(() -> new WebServiceExceptions("Utente non trovato"))
         );
 
-        // --- FIX: Usiamo il Mapper per essere sicuri di avere nome, immagine e stock ---
         return Mapper.buildShoppingCartDTO(entities);
     }
 
@@ -88,7 +86,6 @@ public class ShoppingCartImpl implements IShoppingCartServices {
         log.debug("Recupero items per ordine: {}", userOrderId);
         List<ShoppingCart> entities = ssR.findAllByUserOrder_Id(userOrderId);
         
-        // --- FIX: Anche qui usiamo il Mapper ---
         return Mapper.buildShoppingCartDTO(entities);
     }
     
@@ -97,7 +94,6 @@ public class ShoppingCartImpl implements IShoppingCartServices {
         log.debug("get all shopping cart items");
         List<ShoppingCart> entities = ssR.findAll();
         
-        // --- FIX: Usiamo il Mapper ---
         return Mapper.buildShoppingCartDTO(entities);
     }
 
