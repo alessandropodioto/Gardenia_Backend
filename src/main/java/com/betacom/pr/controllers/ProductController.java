@@ -59,6 +59,20 @@ public class ProductController {
 		return ResponseEntity.status(status).body(r);		
 	}
 
+	@PutMapping("/softDelete")
+	public ResponseEntity<Resp> softDelete(@RequestBody(required = true) ProductReq req){
+		Resp r = new Resp();
+		HttpStatus status = HttpStatus.OK;
+		try {
+			productS.softDelete(req);
+			r.setMsg("Prodotto aggiornato con successo");
+		} catch (Exception e) {
+			r.setMsg(e.getMessage());
+			status = HttpStatus.BAD_REQUEST;
+		}
+		return ResponseEntity.status(status).body(r);		
+	}
+
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Resp> delete(@PathVariable(required = true) Integer id){ 
 		Resp r = new Resp();

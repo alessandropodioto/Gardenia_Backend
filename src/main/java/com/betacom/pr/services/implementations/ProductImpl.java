@@ -1,6 +1,7 @@
 package com.betacom.pr.services.implementations;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -83,8 +84,10 @@ public class ProductImpl implements IProductServices {
 
 	@Override
 	public List<ProductDTO> list() {
-		log.debug("list products");
-		List<Product> lP = productR.findAll();
+        log.debug("list products");
+        List<Product> lP = productR.findAll().stream()
+                .filter(p->p.getIsDeleted()!=true)
+                .collect(Collectors.toList());
 		
 		return Mapper.buildProductDTO(lP);
 	}
@@ -105,7 +108,20 @@ public class ProductImpl implements IProductServices {
 		Subcategory subcategory = subcategoryR.findById(subcategoryId)
 				.orElseThrow(() -> new Exception("Sottocategoria non trovata"));
 
-		List<Product> products = productR.findAllBySubcategory_Id(subcategory.getId());
+		List<Product> products = productR.findAllBySubcategory_Id(subcategory.getId()).stream()
+                .filter(p->p.getIsDeleted()!=true)
+                .collect(Collectors.toList());
 		return Mapper.buildProductDTO(products);
+	}
+	@Override
+	public void softDelete(ProductReq req) throws Exception {
+		log.debug("softDeleted product: {}", req);
+
+		Product p = productR.findById(req.getId())
+				.orElseThrow(() -> new Exception("Prodotto non trovato"));
+		
+		if (req.getIsDeleted() == false) p.setIsDeleted(true);
+	
+		productR.save(p);
 	}
 }
