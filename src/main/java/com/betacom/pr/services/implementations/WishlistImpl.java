@@ -33,21 +33,18 @@ public class WishlistImpl implements IWishlistServices {
     public void add(WishlistReq req) throws Exception {
         log.debug("Aggiunta prodotto {} alla wishlist di {}", req.getProductId(), req.getUserName());
 
-        // 1. Controllo se esiste già per evitare duplicati
         Optional<Wishlist> existing = wishlistR.findByUser_UserNameAndProduct_Id(req.getUserName(), req.getProductId());
         if (existing.isPresent()) {
             log.info("Prodotto già presente nella wishlist");
-            return; // Usciamo senza fare nulla o potresti lanciare un'eccezione personalizzata
+            return;
         }
 
-        // 2. Recupero Utente e Prodotto
         User user = userR.findByUserName(req.getUserName())
                 .orElseThrow(() -> new Exception("Utente non trovato"));
         
         Product product = productR.findById(req.getProductId())
                 .orElseThrow(() -> new Exception("Prodotto non trovato"));
 
-        // 3. Salvataggio
         Wishlist w = new Wishlist();
         w.setUser(user);
         w.setProduct(product);

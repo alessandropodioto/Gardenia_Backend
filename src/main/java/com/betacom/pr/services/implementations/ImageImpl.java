@@ -30,13 +30,11 @@ public class ImageImpl implements IImageServices {
 	   
 	    Product product = productR.findById(req.getProductId())
 	            .orElseThrow(() -> new Exception("Prodotto non trovato con ID: " + req.getProductId()));
-	    
-	   
+	       
 	    Image img = new Image();
 	    img.setLink(req.getLink());
 	    img.setProduct(product);
-	    
-	   
+	       
 	    imageR.save(img); 
 	}
 
