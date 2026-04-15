@@ -10,7 +10,8 @@ public interface IProductServices {
 	Integer create(ProductReq req) throws Exception;
 	void update(ProductReq req) throws Exception;
 	void delete(Integer id) throws Exception;
-	
+	void softDelete(ProductReq req) throws Exception;
+	 
 	List<ProductDTO> list();
 	ProductDTO getById(Integer id) throws Exception;
 	List<ProductDTO> getBySubcategoryId(Integer subcategoryId) throws Exception;
